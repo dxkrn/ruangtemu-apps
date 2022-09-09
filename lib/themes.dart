@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 Color blueColor = Color(0xff18345C);
 Color yellowColor = Color(0xffFFCA57);
 Color whiteColor = Color(0xffFFFFFF);
-Color greyColor = Color(0xffACA8C6);
+Color greyColor = Color.fromARGB(255, 208, 205, 227);
 
 TextStyle heading1BoldTextStyle = GoogleFonts.poppins(
   fontWeight: FontWeight.bold,

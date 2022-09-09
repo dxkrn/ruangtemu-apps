@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Pages/login_page.dart';
 import 'package:ruang_temu_apps/Pages/onboarding_page.dart';
 import 'package:ruang_temu_apps/splash_sceen.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       builder: (context, child) => const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home: LoginPage(),
       ),
       designSize: const Size(375, 667),
     );
