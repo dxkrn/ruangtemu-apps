@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
                   Container(
                     width: 170.w,
                     height: 235.h,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
                           'assets/images/logo_kabinet.png',
