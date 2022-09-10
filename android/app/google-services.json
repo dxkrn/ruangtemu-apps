@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "763154572711",
+    "project_id": "ruangtemu-bemkmuny",
+    "storage_bucket": "ruangtemu-bemkmuny.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763154572711:android:eca61e6362f4cf4542c282",
+        "android_client_info": {
+          "package_name": "com.bemkmuny.ruangtemu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlcAeNwi3a_s460NSrIy9KyoVUTuoLC0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

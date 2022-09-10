@@ -30,10 +30,13 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  firebase_auth: ^3.8.0
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.10.0
   flutter_screenutil: ^5.5.4
   google_fonts: ^3.0.1
+  google_sign_in: ^5.4.1
   liquid_swipe: ^3.0.0
   smooth_page_indicator: ^1.0.0+2
 

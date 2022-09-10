@@ -1,4 +1,4 @@
-package com.example.ruang_temu_apps
+package com.bemkmuny.ruangtemu
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -4,23 +4,23 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        // {
-        //     "name": "ruang_temu_apps",
-        //     "request": "launch",
-        //     "type": "dart"
-        // },
-        // {
-        //     "name": "ruang_temu_apps (profile mode)",
-        //     "request": "launch",
-        //     "type": "dart",
-        //     "flutterMode": "profile"
-        // },
-        // {
-        //     "name": "ruang_temu_apps (release mode)",
-        //     "request": "launch",
-        //     "type": "dart",
-        //     "flutterMode": "release"
-        // },
+        {
+            "name": "ruang_temu_apps",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ruang_temu_apps (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ruang_temu_apps (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
         {
             "name": "Note 10s",
             "request": "launch",

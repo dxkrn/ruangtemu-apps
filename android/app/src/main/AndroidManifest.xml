@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ruang_temu_apps">
+    package="com.bemkmuny.ruangtemu">
    <application
         android:label="ruang_temu_apps"
         android:name="${applicationName}"
