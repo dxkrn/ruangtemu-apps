@@ -4,16 +4,16 @@ import 'package:ruang_temu_apps/themes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../Widgets/rounded_button.dart';
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId:
-      '763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com',
-  serverClientId:
-      '821080673605-djicbo65f7qd9el2sr7sg6nnhgaa2756.apps.googleusercontent.com',
-  scopes: [
-    'email',
-    'profile',
-  ],
-);
+// GoogleSignIn _googleSignIn = GoogleSignIn(
+//   clientId:
+//       '763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com',
+//   serverClientId:
+//       '821080673605-djicbo65f7qd9el2sr7sg6nnhgaa2756.apps.googleusercontent.com',
+//   scopes: [
+//     'email',
+//     'profile',
+//   ],
+// );
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,38 +25,38 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   GoogleSignInAccount? _currentUser;
 
-  Future<void> _handleSignIn() async {
-    try {
-      print('sign in');
-      if (_currentUser != null) {
-        await _googleSignIn.signOut();
-        print('Signed out');
-      }
-      GoogleSignInAccount? account = await _googleSignIn.signIn();
+  // Future<void> _handleSignIn() async {
+  //   try {
+  //     print('sign in');
+  //     if (_currentUser != null) {
+  //       await _googleSignIn.signOut();
+  //       print('Signed out');
+  //     }
+  //     GoogleSignInAccount? account = await _googleSignIn.signIn();
 
-      GoogleSignInAuthentication? authentication =
-          await account?.authentication;
+  //     GoogleSignInAuthentication? authentication =
+  //         await account?.authentication;
 
-      String? accessToken = authentication?.accessToken;
+  //     String? accessToken = authentication?.accessToken;
 
-      print('access token : $accessToken');
-      print('account : $account');
-    } catch (error) {
-      print(error);
-    }
-  }
+  //     print('access token : $accessToken');
+  //     print('account : $account');
+  //   } catch (error) {
+  //     print(error);
+  //   }
+  // }
 
   @override
-  void initState() {
-    super.initState();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-        print(account);
-      });
-    });
-    // _googleSignIn.signInSilently();
-  }
+  // void initState() {
+  //   super.initState();
+  //   _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+  //     setState(() {
+  //       _currentUser = account;
+  //       print(account);
+  //     });
+  //   });
+  //   // _googleSignIn.signInSilently();
+  // }
 
   bool obscureText = true;
 
@@ -185,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                       buttonColor: blueColor,
                       textColor: whiteColor,
                       onPressed: () {
-                        _handleSignIn();
+                        // _handleSignIn();
                       },
                     ),
                     SizedBox(
