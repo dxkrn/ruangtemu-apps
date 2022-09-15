@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Pages/Features/HaloUNY/halouny_page.dart';
 import 'Pages/home_page.dart';
 import 'Pages/onboarding_page.dart';
 
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const HomePage(),
           '/onboard': (context) => const OnboardPage(),
+
+          //HaloUNY!
+          '/halouny': (context) => const HalounyPage(),
         },
       ),
       designSize: const Size(375, 667),
