@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ruang_temu_apps/Pages/login_page.dart';
-import 'package:ruang_temu_apps/Pages/onboarding_page.dart';
-import 'package:ruang_temu_apps/splash_sceen.dart';
 
 import 'Pages/home_page.dart';
 
