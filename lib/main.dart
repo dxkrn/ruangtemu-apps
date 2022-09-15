@@ -5,6 +5,7 @@ import 'Pages/Features/Aspirasi/ruang_aspirasi_form.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_page.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_thanks.dart';
 import 'Pages/Features/HaloUNY/halouny_page.dart';
+import 'Pages/Features/Info/ruang_info.dart';
 import 'Pages/home_page.dart';
 import 'Pages/onboarding_page.dart';
 
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
           '/aspirasi': (context) => const RuangAspirasiForm(),
           '/aspirasiThanks': (context) => const RuangAspirasiThanks(),
           '/aspirasiPage': (context) => const RuangAspirasiPage(),
+
+          //Info
+          '/info': (context) => const RuangInfo(),
         },
       ),
       designSize: const Size(375, 667),
