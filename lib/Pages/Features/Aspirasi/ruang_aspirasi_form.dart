@@ -16,7 +16,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
+    // double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: FeatureAppbar(
@@ -29,7 +29,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
             tag: 'assets/images/img_ill_aspirasi.png',
             child: Container(
               height: 200.h,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/img_ill_aspirasi.png'),
                 ),
@@ -44,7 +44,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
               Container(
                 height: deviceHeight - 200.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   ),
@@ -77,13 +77,13 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                       height: 20.h,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
                       height: 160.h,
                       child: Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 10,
                         ),
@@ -115,7 +115,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
 
                     //checklist
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
                       height: 50.h,
@@ -142,7 +142,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                                 : SizedBox(
                                     width: 20.h,
                                     height: 20.h,
-                                    child: Image(
+                                    child: const Image(
                                       image: AssetImage(
                                           'assets/icons/icon_check.png'),
                                     ),
@@ -168,7 +168,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                       height: 10.h,
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
                       child: Row(

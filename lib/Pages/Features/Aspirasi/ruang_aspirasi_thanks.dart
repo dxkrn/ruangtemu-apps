@@ -18,13 +18,13 @@ class RuangAspirasiThanks extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               SizedBox(
                 width: 280.w,
                 height: 220.h,
-                child: Image(
+                child: const Image(
                   image: AssetImage(
                     'assets/images/img_ill_thanks.png',
                   ),

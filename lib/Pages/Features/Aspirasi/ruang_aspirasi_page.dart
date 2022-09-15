@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/themes.dart';
@@ -75,7 +77,7 @@ class AspirasiCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           height: 150.h,
           decoration: BoxDecoration(
             color: yellowColor,
@@ -84,7 +86,7 @@ class AspirasiCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 height: 35.h,
                 child: Row(
                   children: [
@@ -139,7 +141,7 @@ class AspirasiCard extends StatelessWidget {
                   maxLines: 3,
                 ),
               ),
-              Container(
+              SizedBox(
                 // color: blueColor,
                 width: 300.w,
                 height: 30.h,
@@ -156,7 +158,7 @@ class AspirasiCard extends StatelessWidget {
                     Container(
                       width: 20.h,
                       height: 20.h,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/icons/icon_comment.png'),
                         ),
