@@ -66,12 +66,17 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    Text(
-                      'Ruang Aspirasi merupakan sarana menyalurkan aspirasi kepada BEM KM UNY untuk perbaikan dan gerakan selanjutnya bagi KM UNY dan Indonesia',
-                      style: heading3TextStyle.copyWith(
-                        color: whiteColor,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
                       ),
-                      textAlign: TextAlign.center,
+                      child: Text(
+                        'Ruang Aspirasi merupakan sarana menyalurkan aspirasi kepada BEM KM UNY untuk perbaikan dan gerakan selanjutnya bagi KM UNY dan Indonesia',
+                        style: heading3TextStyle.copyWith(
+                          color: whiteColor,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
