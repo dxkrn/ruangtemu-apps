@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi_detail.dart';
+import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak.dart';
+import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak_detail.dart';
 
 import 'Pages/Features/Aspirasi/ruang_aspirasi_form.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_page.dart';
@@ -46,6 +48,10 @@ class MyApp extends StatelessWidget {
           //Edukasi
           '/edukasi': (context) => const RuangEdukasi(),
           '/edukasiDetail': (context) => const RuangEdukasiDetail(),
+
+          //Lapak
+          '/lapak': (context) => const RuangLapak(),
+          '/lapakDetail': (context) => const RuangLapakDetail(),
         },
       ),
       designSize: const Size(375, 667),
