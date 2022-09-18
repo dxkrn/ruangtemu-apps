@@ -61,12 +61,17 @@ class RuangSurvey extends StatelessWidget {
                     SizedBox(
                       height: 20.h,
                     ),
-                    Text(
-                      'Ruang Survey berisi survey menarik yang dikelola oleh Kementerian Riset dan Data BEM KM UNY',
-                      style: heading3TextStyle.copyWith(
-                        color: whiteColor,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
                       ),
-                      textAlign: TextAlign.center,
+                      child: Text(
+                        'Ruang Survey berisi survey menarik yang dikelola oleh Kementerian Riset dan Data BEM KM UNY',
+                        style: heading3TextStyle.copyWith(
+                          color: whiteColor,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -132,7 +137,7 @@ class SurveyCard extends StatelessWidget {
                   width: 10.w,
                 ),
                 Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerLeft,
                   width: 240.w,
                   height: 55.h,
                   child: Text(
