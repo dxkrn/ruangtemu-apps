@@ -9,6 +9,8 @@ import 'Pages/Features/Aspirasi/ruang_aspirasi_form.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_page.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_thanks.dart';
 import 'Pages/Features/HaloUNY/halouny_page.dart';
+import 'Pages/Features/Info/info_beasiswa_detail.dart';
+import 'Pages/Features/Info/info_beasiswa_page.dart';
 import 'Pages/Features/Info/ruang_info.dart';
 import 'Pages/Features/Survey/ruang_survey.dart';
 import 'Pages/home_page.dart';
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
 
           //Info
           '/info': (context) => const RuangInfo(),
+          '/infoBeasiswaPage': (context) => const InfoBeasiswaPage(),
+          '/infoBeasiswaDetail': (context) => const InfoBeasiswaDetail(),
 
           //Survey
           '/survey': (context) => const RuangSurvey(),

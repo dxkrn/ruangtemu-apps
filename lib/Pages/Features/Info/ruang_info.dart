@@ -70,17 +70,17 @@ class RuangInfo extends StatelessWidget {
                       height: 20.h,
                     ),
                     InfoCard(
-                      id: 'kalender',
+                      id: '/infoKalender',
                       iconSrc: 'assets/icons/icon_calendar.png',
                       title: 'Kalender Akademik dan Lomba',
                     ),
                     InfoCard(
-                      id: 'internship',
+                      id: '/infoInternship',
                       iconSrc: 'assets/icons/icon_internship.png',
                       title: 'Internship',
                     ),
                     InfoCard(
-                      id: 'Beasiswa',
+                      id: '/infoBeasiswaPage',
                       iconSrc: 'assets/icons/icon_beasiswa.png',
                       title: 'Beasiswa',
                     ),
@@ -112,7 +112,9 @@ class InfoCard extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, id);
+          },
           child: Container(
             padding: EdgeInsets.all(10.w),
             width: 320.w,
