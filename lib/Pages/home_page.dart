@@ -82,11 +82,11 @@ class HomePage extends StatelessWidget {
                           title: 'Halo UNY!',
                           imgSrc: 'assets/images/img_ill_halouny.png',
                         ),
-                        FiturUnggulanCard(
-                          id: '/akademik',
-                          title: 'Ruang\nAkademik',
-                          imgSrc: 'assets/images/img_ill_akademik.png',
-                        ),
+                        // FiturUnggulanCard(
+                        //   id: '/akademik',
+                        //   title: 'Ruang\nAkademik',
+                        //   imgSrc: 'assets/images/img_ill_akademik.png',
+                        // ),
                         FiturUnggulanCard(
                           id: '/aspirasi',
                           title: 'Ruang\nAspirasi',
