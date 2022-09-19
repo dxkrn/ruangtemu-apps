@@ -29,7 +29,9 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/settingsPage');
+              },
             ),
             SizedBox(
               width: 10.w,

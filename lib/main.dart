@@ -6,6 +6,8 @@ import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_detail.dart'
 import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak_detail.dart';
+import 'package:ruang_temu_apps/Pages/accounts_page.dart';
+import 'package:ruang_temu_apps/Pages/settings_page.dart';
 
 import 'Pages/Features/Aspirasi/ruang_aspirasi_form.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_page.dart';
@@ -60,6 +62,10 @@ class MyApp extends StatelessWidget {
           //Lapak
           '/lapak': (context) => const RuangLapak(),
           '/lapakDetail': (context) => const RuangLapakDetail(),
+
+          //Settings
+          '/settingsPage': (context) => const SettingsPage(),
+          '/accountPage': (context) => const AccountsPage(),
         },
       ),
       designSize: const Size(375, 667),
