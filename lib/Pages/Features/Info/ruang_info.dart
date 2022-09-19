@@ -75,7 +75,7 @@ class RuangInfo extends StatelessWidget {
                       title: 'Kalender Akademik dan Lomba',
                     ),
                     InfoCard(
-                      id: '/infoInternship',
+                      id: '/infoInternshipPage',
                       iconSrc: 'assets/icons/icon_internship.png',
                       title: 'Internship',
                     ),

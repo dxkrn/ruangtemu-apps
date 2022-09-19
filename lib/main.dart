@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi_detail.dart';
+import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_detail.dart';
+import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak_detail.dart';
 
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
           '/info': (context) => const RuangInfo(),
           '/infoBeasiswaPage': (context) => const InfoBeasiswaPage(),
           '/infoBeasiswaDetail': (context) => const InfoBeasiswaDetail(),
+          '/infoInternshipPage': (context) => const InfoInternhipPage(),
+          '/infoInternshipDetail': (context) => const InfoInternshipDetail(),
 
           //Survey
           '/survey': (context) => const RuangSurvey(),
