@@ -58,6 +58,9 @@ class InfoBeasiswaPage extends StatelessWidget {
             left: 24.w,
             child: Container(
               alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+              ),
               width: deviceWidth - 48.w,
               height: 70.h,
               decoration: BoxDecoration(
@@ -106,65 +109,70 @@ class InfoBeasiswaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(
-        10.w,
-      ),
-      margin: EdgeInsets.only(
-        bottom: 20.h,
-      ),
-      width: deviceWidth - 48.w,
-      height: 150.h,
-      decoration: BoxDecoration(
-        color: blueColor,
-        borderRadius: BorderRadius.circular(30.r),
-      ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/infoBeasiswaDetail');
+      },
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.r),
+        padding: EdgeInsets.all(
+          10.w,
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 150.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.r),
-                image: DecorationImage(
-                  image: AssetImage(imgSrc),
-                  fit: BoxFit.cover,
+        margin: EdgeInsets.only(
+          bottom: 20.h,
+        ),
+        width: deviceWidth - 48.w,
+        height: 150.h,
+        decoration: BoxDecoration(
+          color: blueColor,
+          borderRadius: BorderRadius.circular(30.r),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.r),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 150.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.r),
+                  image: DecorationImage(
+                    image: AssetImage(imgSrc),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 140.w,
-                  child: Text(
-                    title,
-                    style: heading2TextStyle.copyWith(
-                      color: whiteColor,
+              SizedBox(
+                width: 10.w,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 140.w,
+                    child: Text(
+                      title,
+                      style: heading2TextStyle.copyWith(
+                        color: whiteColor,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                SizedBox(
-                  width: 140.w,
-                  child: Text(
-                    'Kementerian Advokesma\nBEM KM UNY 2022',
-                    style: heading4TextStyle.copyWith(
-                      color: whiteColor,
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SizedBox(
+                    width: 140.w,
+                    child: Text(
+                      'Kementerian Advokesma\nBEM KM UNY 2022',
+                      style: heading4TextStyle.copyWith(
+                        color: whiteColor,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
