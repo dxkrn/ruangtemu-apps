@@ -2,16 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     // double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: whiteColor,
         elevation: 0,
@@ -411,7 +418,7 @@ class FiturUnggulanCard extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: (() {
-            Navigator.pushNamed(context, id);
+            Get.toNamed(id);
           }),
           child: AspectRatio(
             aspectRatio: 0.75,
