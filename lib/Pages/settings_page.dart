@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
+import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -361,7 +363,52 @@ class _SettingsPageState extends State<SettingsPage> {
               deviceWidth: deviceWidth,
               imgSrc: 'assets/icons/icon_logout.png',
               title: 'Log Out',
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return DialogBox(
+                        widget: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Apakah Anda yakin ingin Logout?',
+                              style: heading2TextStyle.copyWith(
+                                color: blueColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                RoundedButtonBorder(
+                                  width: 100,
+                                  height: 30.h,
+                                  text: 'Iya',
+                                  borderColor: blueColor,
+                                  borderWidth: 1.w,
+                                  textColor: blueColor,
+                                  onPressed: () {},
+                                ),
+                                RoundedButton(
+                                  width: 100.w,
+                                  height: 30.h,
+                                  text: 'Tidak',
+                                  buttonColor: blueColor,
+                                  textColor: whiteColor,
+                                  onPressed: () {},
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        height: 100.h);
+                  }),
+                );
+              },
             ),
           ],
         ),
