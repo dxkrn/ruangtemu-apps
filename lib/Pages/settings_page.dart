@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
@@ -414,32 +415,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class DialogBox extends StatelessWidget {
-  DialogBox({
-    Key? key,
-    required this.widget,
-    required this.height,
-  }) : super(key: key);
-  Widget widget;
-  double height;
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      elevation: 0,
-      backgroundColor: whiteColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20.w,
-          vertical: 10.h,
-        ),
-        height: height,
-        child: widget,
       ),
     );
   }
