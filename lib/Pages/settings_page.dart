@@ -399,7 +399,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                   text: 'Tidak',
                                   buttonColor: blueColor,
                                   textColor: whiteColor,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
                                 ),
                               ],
                             ),
