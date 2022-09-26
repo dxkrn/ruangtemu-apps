@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
-
+import 'package:get/get.dart';
 import '../../../themes.dart';
 
 class RuangInfo extends StatelessWidget {
@@ -113,7 +113,7 @@ class InfoCard extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, id);
+            Get.toNamed(id);
           },
           child: Container(
             padding: EdgeInsets.all(10.w),

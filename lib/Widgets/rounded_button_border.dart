@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,26 +27,26 @@ class RoundedButtonBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: GestureDetector(
-        onTap: () => onPressed,
+        onTap: () => onPressed(),
         child: Container(
           alignment: Alignment.center,
           width: width,
           height: height,
-          child: Text(
-            text,
-            style: heading1MediumTextStyle.copyWith(
-              color: textColor,
-            ),
-          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(
               width: borderWidth,
               color: borderColor,
+            ),
+          ),
+          child: Text(
+            text,
+            style: heading1MediumTextStyle.copyWith(
+              color: textColor,
             ),
           ),
         ),

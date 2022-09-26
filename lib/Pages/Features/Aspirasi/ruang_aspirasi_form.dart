@@ -4,6 +4,7 @@ import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/themes.dart';
+import 'package:get/get.dart';
 
 class RuangAspirasiForm extends StatefulWidget {
   const RuangAspirasiForm({super.key});
@@ -186,7 +187,9 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                             borderColor: yellowColor,
                             borderWidth: 2,
                             textColor: yellowColor,
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed('/aspirasiPage');
+                            },
                           ),
                           RoundedButton(
                             width: 120.w,
@@ -195,7 +198,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                             buttonColor: yellowColor,
                             textColor: blueColor,
                             onPressed: () {
-                              Navigator.pushNamed(context, '/aspirasiThanks');
+                              Get.toNamed('/aspirasiThanks');
                             },
                           ),
                         ],

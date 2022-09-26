@@ -66,10 +66,18 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/aspirasiThanks',
             page: () => const RuangAspirasiThanks(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
           GetPage(
             name: '/aspirasiPage',
             page: () => const RuangAspirasiPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
 
           //Info
@@ -84,18 +92,34 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/infoBeasiswaPage',
             page: () => const InfoBeasiswaPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
           GetPage(
             name: '/infoBeasiswaDetail',
             page: () => const InfoBeasiswaDetail(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
           GetPage(
             name: '/infoInternshipPage',
             page: () => const InfoInternhipPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
           GetPage(
             name: '/infoInternshipDetail',
             page: () => const InfoInternshipDetail(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
 
           //Survey
@@ -120,6 +144,10 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/edukasiDetail',
             page: () => const RuangEdukasiDetail(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
 
           //Lapak
@@ -134,16 +162,28 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/lapakDetail',
             page: () => const RuangLapakDetail(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
 
           //Settings
           GetPage(
             name: '/settingsPage',
             page: () => const SettingsPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
           GetPage(
             name: '/accountPage',
             page: () => const AccountsPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
           ),
         ],
       ),

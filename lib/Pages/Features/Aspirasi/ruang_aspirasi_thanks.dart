@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Pages/home_page.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/themes.dart';
-
+import 'package:get/get.dart';
 import '../../../Widgets/feature_appbar.dart';
 
 class RuangAspirasiThanks extends StatelessWidget {
@@ -65,7 +66,15 @@ class RuangAspirasiThanks extends StatelessWidget {
                 borderColor: blueColor,
                 borderWidth: 2,
                 textColor: blueColor,
-                onPressed: () {},
+                onPressed: () {
+                  Get.offAll(
+                    const HomePage(),
+                    transition: Transition.fade,
+                    duration: const Duration(
+                      milliseconds: 500,
+                    ),
+                  );
+                },
               ),
             ],
           ),

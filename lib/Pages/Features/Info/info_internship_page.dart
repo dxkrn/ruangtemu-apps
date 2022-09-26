@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
-
+import 'package:get/get.dart';
 import '../../../themes.dart';
 
 class InfoInternhipPage extends StatelessWidget {
@@ -105,7 +105,7 @@ class InfoInternshipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/infoInternshipDetail');
+        Get.toNamed('/infoInternshipDetail');
       },
       child: Container(
         padding: EdgeInsets.all(

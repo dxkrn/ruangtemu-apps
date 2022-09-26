@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/themes.dart';
+import 'package:get/get.dart';
 
 class InfoBeasiswaPage extends StatelessWidget {
   const InfoBeasiswaPage({super.key});
@@ -111,7 +112,7 @@ class InfoBeasiswaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/infoBeasiswaDetail');
+        Get.toNamed('/infoBeasiswaDetail');
       },
       child: Container(
         padding: EdgeInsets.all(

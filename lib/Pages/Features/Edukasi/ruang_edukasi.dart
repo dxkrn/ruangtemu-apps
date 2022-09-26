@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
-
+import 'package:get/get.dart';
 import '../../../themes.dart';
 
 class RuangEdukasi extends StatefulWidget {
@@ -217,7 +217,7 @@ class EdukasiCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/edukasiDetail');
+        Get.toNamed('/edukasiDetail');
       },
       child: Container(
         width: 330.w,
