@@ -41,8 +41,10 @@ dependencies:
   getwidget: ^3.0.1
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.1
+  http: ^0.13.5
   liquid_swipe: ^3.0.0
   smooth_page_indicator: ^1.0.0+2
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_lints: ^2.0.0
