@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Get.find();
+
     double deviceWidth = MediaQuery.of(context).size.width;
     // double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -43,12 +46,22 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               width: 10.w,
             ),
-            Text(
-              'Hi, Jamaludin Samsudin',
-              style: heading1MediumTextStyle.copyWith(
-                color: blueColor,
-              ),
-            ),
+            Obx(() => Text(
+                  'Hi, ${userController.user.value.name}',
+                  style: heading1MediumTextStyle.copyWith(
+                    color: blueColor,
+                  ),
+                )),
+            ElevatedButton.icon(
+                onPressed: () {
+                  userController.updateName(
+                    userController.user.value.name == 'Damar Albaribin'
+                        ? "Dicky Kun"
+                        : 'Damar Albaribin',
+                  );
+                },
+                icon: const Icon(Icons.help),
+                label: const Text("Debug")),
           ],
         ),
       ),

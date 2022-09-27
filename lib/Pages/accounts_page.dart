@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/themes.dart';
+import 'package:get/get.dart';
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Get.find();
+
     double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: FeatureAppbar(
@@ -78,21 +82,23 @@ class AccountsPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 230.w,
-                    // color: blueColor,
-                    child: TextField(
-                      style: heading2TextStyle.copyWith(
-                        color: blueColor,
-                      ),
-                      decoration: InputDecoration(
-                        hintStyle: heading1MediumTextStyle.copyWith(
-                          color: blueColor.withAlpha(90),
+                  Obx(
+                    () => Container(
+                      width: 230.w,
+                      // color: blueColor,
+                      child: TextField(
+                        style: heading2TextStyle.copyWith(
+                          color: blueColor,
                         ),
-                        hintText: 'Jamaludin Samsudin',
+                        decoration: InputDecoration(
+                          hintStyle: heading1MediumTextStyle.copyWith(
+                            color: blueColor.withAlpha(90),
+                          ),
+                          hintText: userController.user.value.name,
+                        ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
               // color: yellowColor,
