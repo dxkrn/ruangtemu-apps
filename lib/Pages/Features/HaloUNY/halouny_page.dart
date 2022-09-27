@@ -1,12 +1,43 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Models/call_center.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/themes.dart';
+import 'package:http/http.dart' as http;
 
-class HalounyPage extends StatelessWidget {
+Future<List<Callcenter>> fetchCallcenter() async {
+  final response = await http.get(Uri.parse("$baseAPIUrl/callcenters"));
+
+  if (response.statusCode == 200) {
+    Iterable l = json.decode(response.body);
+    return List<Callcenter>.from(l.map((model) => Callcenter.fromJson(model)));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load callcenter');
+  }
+}
+
+class HalounyPage extends StatefulWidget {
   const HalounyPage({super.key});
+
+  @override
+  State<HalounyPage> createState() => _HalounyPageState();
+}
+
+class _HalounyPageState extends State<HalounyPage> {
+  late Future<List<Callcenter>> futureCallcenter;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCallcenter = fetchCallcenter();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +101,27 @@ class HalounyPage extends StatelessWidget {
                     SizedBox(
                       height: 20.h,
                     ),
-                    CallCenterCard(
-                      imgSrc: 'assets/logos/logo_advokesma.png',
-                      title: 'Call Center Aduan\nMasalah Briokrasi',
-                      subtitle:
-                          'Layanan aduan mengenai bantuan UKT,\nakademik, fasilitas, dan lain sebagainya',
-                    ),
-                    CallCenterCard(
-                      imgSrc: 'assets/logos/logo_pp.png',
-                      title: 'Call Center Aduan\nKekerasan Seksual',
-                      subtitle:
-                          'Layanan aduan mengenai kekerasan\nseksual di kampus',
+                    FutureBuilder<List<Callcenter>>(
+                      future: futureCallcenter,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                              children: snapshot.data
+                                      ?.map((e) => CallCenterCard(
+                                            imgSrc: e.logoUrl ??
+                                                'assets/logos/logo_advokesma.png',
+                                            title: e.name,
+                                            subtitle: e.description,
+                                          ))
+                                      .toList() ??
+                                  []);
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+
+                        // By default, show a loading spinner.
+                        return const CircularProgressIndicator();
+                      },
                     ),
                   ],
                 ),
