@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 
+import '../../../Widgets/dialog_box.dart';
+import '../../../Widgets/rounded_button.dart';
 import '../../../themes.dart';
 
 class RuangLapak extends StatefulWidget {
@@ -213,16 +215,84 @@ class _RuangLapakState extends State<RuangLapak> {
                 SizedBox(
                   width: 10.w,
                 ),
-                Container(
-                  width: 40.h,
-                  height: 40.h,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: blueColor,
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Image(
-                    image: AssetImage('assets/icons/icon_filter.png'),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return DialogBox(
+                          widget: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Apa yang ingin Anda cari?',
+                                style: heading1MediumTextStyle.copyWith(
+                                  color: blueColor,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10.h),
+                                height: 20.h,
+                                // color: yellowColor,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Olahraga',
+                                      style: heading2TextStyle.copyWith(
+                                        color: blueColor,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                          width: 15.h,
+                                          height: 15.h,
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/icons/icon_check_blue.png'),
+                                            ),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              RoundedButton(
+                                width: 100.w,
+                                height: 35.h,
+                                text: 'Okay',
+                                buttonColor: blueColor,
+                                textColor: whiteColor,
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                          height: 200.h,
+                        );
+                      }),
+                    );
+                  },
+                  child: Container(
+                    width: 40.h,
+                    height: 40.h,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: blueColor,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: const Image(
+                      image: AssetImage('assets/icons/icon_filter.png'),
+                    ),
                   ),
                 ),
               ],
