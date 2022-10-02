@@ -4,10 +4,10 @@
 
 import 'dart:convert';
 
-List<Survey> callcenterFromJson(String str) =>
+List<Survey> surveyFromJson(String str) =>
     List<Survey>.from(json.decode(str).map((x) => Survey.fromJson(x)));
 
-String callcenterToJson(List<Survey> data) =>
+String surveyToJson(List<Survey> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Survey {
