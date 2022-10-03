@@ -1,13 +1,45 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/themes.dart';
-
+import 'package:http/http.dart' as http;
+import '../../../Models/aspirasi.dart';
 import '../../../Widgets/feature_appbar.dart';
+import '../../../env.dart';
 
-class RuangAspirasiPage extends StatelessWidget {
+Future<List<Aspirasi>> fetchSurvey() async {
+  final response = await http.get(Uri.parse("$baseAPIUrl/aspirations?page=1"));
+
+  if (response.statusCode == 200) {
+    Map<String, dynamic> m = json.decode(response.body);
+    Iterable l = m['data'];
+    // Iterable l = json.decode(m['data'].toString());
+    return List<Aspirasi>.from(l.map((model) => Aspirasi.fromJson(model)));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load survey');
+  }
+}
+
+class RuangAspirasiPage extends StatefulWidget {
   const RuangAspirasiPage({super.key});
+
+  @override
+  State<RuangAspirasiPage> createState() => _RuangAspirasiPageState();
+}
+
+class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
+  late Future<List<Aspirasi>> futureSurvey;
+
+  @override
+  void initState() {
+    super.initState();
+    futureSurvey = fetchSurvey();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +60,44 @@ class RuangAspirasiPage extends StatelessWidget {
                   SizedBox(
                     height: 90.h,
                   ),
-                  AspirasiCard(
-                    id: '1',
-                    imgSrc: 'assets/images/img_male_avatar.png',
-                    name: 'Hery Gunawan',
-                    content:
-                        'Tolong, aku adalah ubur-ubur yang kesepian, merana, dan butuh teman ataupun orang yang bisa aku jadikan teman cerita tentang apa semua yang udah aku alamin.',
-                    commentCount: 127,
+
+                  //card builder
+                  FutureBuilder<List<Aspirasi>>(
+                    future: futureSurvey,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                            children: snapshot.data
+                                    ?.map(
+                                      (e) => AspirasiCard(
+                                        id: e.id,
+                                        imgSrc:
+                                            'assets/images/img_male_avatar.png',
+                                        name: e.user['name'],
+                                        content: e.description,
+                                        commentCount: e.aspirationCommentsCount,
+                                      ),
+                                    )
+                                    .toList() ??
+                                []);
+                      } else if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: blueColor,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+
+                      // By default, show a loading spinner.
+                      return const CircularProgressIndicator(
+                        color: Colors.white,
+                      );
+                    },
                   ),
-                  AspirasiCard(
-                    id: '2',
-                    imgSrc: 'assets/images/img_female_avatar.png',
-                    name: 'Susy Susanti',
-                    content:
-                        'Gatau mau nulis apa yang penting kalimatnya panjang aja kali ya ehehe, biar keliatan text overflownya aha si ahaha.',
-                    commentCount: 956,
+                  SizedBox(
+                    height: 100.h,
                   ),
                 ],
               ),
@@ -66,7 +121,7 @@ class AspirasiCard extends StatelessWidget {
     required this.content,
     required this.commentCount,
   }) : super(key: key);
-  String id;
+  int id;
   String imgSrc;
   String name;
   String content;
