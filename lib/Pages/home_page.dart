@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -67,230 +68,237 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: [
-          ListView(
-            children: [
-              const SizedBox(
-                height: 110,
-              ),
+          ScrollConfiguration(
+            behavior: CustomScroll(),
+            child: ListView(
+              children: [
+                const SizedBox(
+                  height: 110,
+                ),
 
-              //NOTE:Fitur Unggulan
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: Text(
-                      'Fitur Unggulan',
-                      style: heading2TextStyle.copyWith(
-                        color: blueColor,
+                //NOTE:Fitur Unggulan
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: Text(
+                        'Fitur Unggulan',
+                        style: heading2TextStyle.copyWith(
+                          color: blueColor,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 120.h,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        FiturUnggulanCard(
-                          id: '/halouny',
-                          title: 'Halo UNY!',
-                          imgSrc: 'assets/images/img_ill_halouny.png',
-                        ),
-                        // FiturUnggulanCard(
-                        //   id: '/akademik',
-                        //   title: 'Ruang\nAkademik',
-                        //   imgSrc: 'assets/images/img_ill_akademik.png',
-                        // ),
-                        FiturUnggulanCard(
-                          id: '/aspirasi',
-                          title: 'Ruang\nAspirasi',
-                          imgSrc: 'assets/images/img_ill_aspirasi.png',
-                        ),
-                        FiturUnggulanCard(
-                          id: '/info',
-                          title: 'Ruang\nInfo',
-                          imgSrc: 'assets/images/img_ill_info.png',
-                        ),
-                        FiturUnggulanCard(
-                          id: '/edukasi',
-                          title: 'Ruang\nEdukasi',
-                          imgSrc: 'assets/images/img_ill_edukasi.png',
-                        ),
-                        FiturUnggulanCard(
-                          id: '/lapak',
-                          title: 'Ruang\nLapak',
-                          imgSrc: 'assets/images/img_ill_lapak.png',
-                        ),
-                        FiturUnggulanCard(
-                          id: '/survey',
-                          title: 'Ruang\nSurvey',
-                          imgSrc: 'assets/images/img_ill_survey.png',
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-
-              //NOTE:Seputar Kampus
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Seputar Kampus',
-                          style: heading2TextStyle.copyWith(
-                            color: blueColor,
-                          ),
-                        ),
-                        Row(
+                    SizedBox(
+                      height: 120.h,
+                      child: ScrollConfiguration(
+                        behavior: CustomScroll(),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
                           children: [
-                            Text(
-                              'Lihat Semua',
-                              style: heading3TextStyle.copyWith(
-                                color: blueColor,
-                              ),
-                            ),
                             const SizedBox(
                               width: 20,
                             ),
+                            FiturUnggulanCard(
+                              id: '/halouny',
+                              title: 'Halo UNY!',
+                              imgSrc: 'assets/images/img_ill_halouny.png',
+                            ),
+                            // FiturUnggulanCard(
+                            //   id: '/akademik',
+                            //   title: 'Ruang\nAkademik',
+                            //   imgSrc: 'assets/images/img_ill_akademik.png',
+                            // ),
+                            FiturUnggulanCard(
+                              id: '/aspirasi',
+                              title: 'Ruang\nAspirasi',
+                              imgSrc: 'assets/images/img_ill_aspirasi.png',
+                            ),
+                            FiturUnggulanCard(
+                              id: '/info',
+                              title: 'Ruang\nInfo',
+                              imgSrc: 'assets/images/img_ill_info.png',
+                            ),
+                            FiturUnggulanCard(
+                              id: '/edukasi',
+                              title: 'Ruang\nEdukasi',
+                              imgSrc: 'assets/images/img_ill_edukasi.png',
+                            ),
+                            FiturUnggulanCard(
+                              id: '/lapak',
+                              title: 'Ruang\nLapak',
+                              imgSrc: 'assets/images/img_ill_lapak.png',
+                            ),
+                            FiturUnggulanCard(
+                              id: '/survey',
+                              title: 'Ruang\nSurvey',
+                              imgSrc: 'assets/images/img_ill_survey.png',
+                            ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 150.h,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        SeputarKampusCard(
-                          id: 'sk1',
-                          imgSrc: 'assets/images/img_seputar_1.png',
-                          title: 'Pembangunan Gedung baru UNY, uang darimana?',
-                        ),
-                        SeputarKampusCard(
-                          id: 'sk2',
-                          imgSrc: 'assets/images/img_seputar_2.png',
-                          title: 'Bermusik menyehatkan jiwa raga',
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
 
-              //NOTE:Belanja yuukk
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Belanja Yukk',
-                          style: heading2TextStyle.copyWith(
-                            color: blueColor,
+                //NOTE:Seputar Kampus
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Seputar Kampus',
+                            style: heading2TextStyle.copyWith(
+                              color: blueColor,
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Lihat Semua',
-                              style: heading3TextStyle.copyWith(
-                                color: blueColor,
+                          Row(
+                            children: [
+                              Text(
+                                'Lihat Semua',
+                                style: heading3TextStyle.copyWith(
+                                  color: blueColor,
+                                ),
                               ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 150.h,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          SeputarKampusCard(
+                            id: 'sk1',
+                            imgSrc: 'assets/images/img_seputar_1.png',
+                            title:
+                                'Pembangunan Gedung baru UNY, uang darimana?',
+                          ),
+                          SeputarKampusCard(
+                            id: 'sk2',
+                            imgSrc: 'assets/images/img_seputar_2.png',
+                            title: 'Bermusik menyehatkan jiwa raga',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+
+                //NOTE:Belanja yuukk
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Belanja Yukk',
+                            style: heading2TextStyle.copyWith(
+                              color: blueColor,
                             ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Lihat Semua',
+                                style: heading3TextStyle.copyWith(
+                                  color: blueColor,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                    const SizedBox(
+                      height: 10,
                     ),
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      childAspectRatio: 8 / 5,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      children: [
-                        ProductCard(
-                          title: 'Jus Sehat',
-                          subtitle: 'Toko Jus',
-                          imgSrc: 'assets/images/img_produk_1.png',
-                        ),
-                        ProductCard(
-                          title: 'Kopi',
-                          subtitle: 'Toko Kopi',
-                          imgSrc: 'assets/images/img_produk_2.png',
-                        ),
-                        ProductCard(
-                          title: 'Daging Domba',
-                          subtitle: 'Jagal Domba',
-                          imgSrc: 'assets/images/img_produk_3.png',
-                        ),
-                        ProductCard(
-                          title: 'Mobil',
-                          subtitle: 'Showroom',
-                          imgSrc: 'assets/images/img_produk_4.png',
-                        ),
-                        ProductCard(
-                          title: 'Pot Hias',
-                          subtitle: 'Petani Bunga',
-                          imgSrc: 'assets/images/img_produk_5.png',
-                        ),
-                        ProductCard(
-                          title: 'Pizza',
-                          subtitle: 'Toko Italy',
-                          imgSrc: 'assets/images/img_produk_6.png',
-                        ),
-                      ],
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        childAspectRatio: 8 / 5,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        children: [
+                          ProductCard(
+                            title: 'Jus Sehat',
+                            subtitle: 'Toko Jus',
+                            imgSrc: 'assets/images/img_produk_1.png',
+                          ),
+                          ProductCard(
+                            title: 'Kopi',
+                            subtitle: 'Toko Kopi',
+                            imgSrc: 'assets/images/img_produk_2.png',
+                          ),
+                          ProductCard(
+                            title: 'Daging Domba',
+                            subtitle: 'Jagal Domba',
+                            imgSrc: 'assets/images/img_produk_3.png',
+                          ),
+                          ProductCard(
+                            title: 'Mobil',
+                            subtitle: 'Showroom',
+                            imgSrc: 'assets/images/img_produk_4.png',
+                          ),
+                          ProductCard(
+                            title: 'Pot Hias',
+                            subtitle: 'Petani Bunga',
+                            imgSrc: 'assets/images/img_produk_5.png',
+                          ),
+                          ProductCard(
+                            title: 'Pizza',
+                            subtitle: 'Toko Italy',
+                            imgSrc: 'assets/images/img_produk_6.png',
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 100.h,
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(
+                      height: 100.h,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           //NOTE : Expanded Appbar and Searchbar
           ExpandedAppbar(deviceWidth: deviceWidth),

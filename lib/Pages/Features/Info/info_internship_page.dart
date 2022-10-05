@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:get/get.dart';
 import '../../../themes.dart';
@@ -22,28 +23,31 @@ class InfoInternhipPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: 24.w,
             ),
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 110.h,
-                ),
-                InfoInternshipCard(
-                  deviceWidth: deviceWidth,
-                  id: '1',
-                  imgSrc: 'assets/images/img_info_internship_1.png',
-                  title: 'Design Grafis',
-                  category: 'Freelance',
-                  company: 'PT Mencari Cinta Sejati',
-                ),
-                InfoInternshipCard(
-                  deviceWidth: deviceWidth,
-                  id: '2',
-                  imgSrc: 'assets/images/img_info_internship_2.png',
-                  title: 'UI/UX Designer',
-                  category: 'Internship',
-                  company: 'PT Mencari Apa aja',
-                ),
-              ],
+            child: ScrollConfiguration(
+              behavior: CustomScroll(),
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: 110.h,
+                  ),
+                  InfoInternshipCard(
+                    deviceWidth: deviceWidth,
+                    id: '1',
+                    imgSrc: 'assets/images/img_info_internship_1.png',
+                    title: 'Design Grafis',
+                    category: 'Freelance',
+                    company: 'PT Mencari Cinta Sejati',
+                  ),
+                  InfoInternshipCard(
+                    deviceWidth: deviceWidth,
+                    id: '2',
+                    imgSrc: 'assets/images/img_info_internship_2.png',
+                    title: 'UI/UX Designer',
+                    category: 'Internship',
+                    company: 'PT Mencari Apa aja',
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(

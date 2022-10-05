@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:get/get.dart';
 import '../../../themes.dart';
@@ -29,65 +30,68 @@ class RuangInfo extends StatelessWidget {
               ),
             ),
           ),
-          ListView(
-            children: [
-              Container(
-                height: 200.h,
-              ),
-              Container(
-                height: deviceHeight - 200.h,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+          ScrollConfiguration(
+            behavior: CustomScroll(),
+            child: ListView(
+              children: [
+                Container(
+                  height: 200.h,
+                ),
+                Container(
+                  height: deviceHeight - 200.h,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    color: blueColor,
                   ),
-                  color: blueColor,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      width: 50.w,
-                      height: 2.h,
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(30.r),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.h,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Text(
-                      'Ruang Info menyediakan informasi mengenai lomba, beasiswa, dan internship bagi mahasiswa UNY',
-                      style: heading3TextStyle.copyWith(
-                        color: whiteColor,
+                      Container(
+                        width: 50.w,
+                        height: 2.h,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    InfoCard(
-                      id: '/infoKalender',
-                      iconSrc: 'assets/icons/icon_calendar.png',
-                      title: 'Kalender Akademik dan Lomba',
-                    ),
-                    InfoCard(
-                      id: '/infoInternshipPage',
-                      iconSrc: 'assets/icons/icon_internship.png',
-                      title: 'Internship',
-                    ),
-                    InfoCard(
-                      id: '/infoBeasiswaPage',
-                      iconSrc: 'assets/icons/icon_beasiswa.png',
-                      title: 'Beasiswa',
-                    ),
-                  ],
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Text(
+                        'Ruang Info menyediakan informasi mengenai lomba, beasiswa, dan internship bagi mahasiswa UNY',
+                        style: heading3TextStyle.copyWith(
+                          color: whiteColor,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      InfoCard(
+                        id: '/infoKalender',
+                        iconSrc: 'assets/icons/icon_calendar.png',
+                        title: 'Kalender Akademik dan Lomba',
+                      ),
+                      InfoCard(
+                        id: '/infoInternshipPage',
+                        iconSrc: 'assets/icons/icon_internship.png',
+                        title: 'Internship',
+                      ),
+                      InfoCard(
+                        id: '/infoBeasiswaPage',
+                        iconSrc: 'assets/icons/icon_beasiswa.png',
+                        title: 'Beasiswa',
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

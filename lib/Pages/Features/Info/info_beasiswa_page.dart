@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:get/get.dart';
@@ -22,36 +23,39 @@ class InfoBeasiswaPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: 24.w,
             ),
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 110.h,
-                ),
-                InfoBeasiswaCard(
-                  deviceWidth: deviceWidth,
-                  id: '1',
-                  imgSrc: 'assets/images/img_info_beasiswa_1.png',
-                  title: 'Open Donation Beasiswa Satyakarta',
-                ),
-                InfoBeasiswaCard(
-                  deviceWidth: deviceWidth,
-                  id: '1',
-                  imgSrc: 'assets/images/img_info_beasiswa_1.png',
-                  title: 'Open Donation Beasiswa Satyakarta',
-                ),
-                InfoBeasiswaCard(
-                  deviceWidth: deviceWidth,
-                  id: '1',
-                  imgSrc: 'assets/images/img_info_beasiswa_1.png',
-                  title: 'Open Donation Beasiswa Satyakarta',
-                ),
-                InfoBeasiswaCard(
-                  deviceWidth: deviceWidth,
-                  id: '1',
-                  imgSrc: 'assets/images/img_info_beasiswa_1.png',
-                  title: 'Open Donation Beasiswa Satyakarta',
-                ),
-              ],
+            child: ScrollConfiguration(
+              behavior: CustomScroll(),
+              child: ListView(
+                children: [
+                  SizedBox(
+                    height: 110.h,
+                  ),
+                  InfoBeasiswaCard(
+                    deviceWidth: deviceWidth,
+                    id: '1',
+                    imgSrc: 'assets/images/img_info_beasiswa_1.png',
+                    title: 'Open Donation Beasiswa Satyakarta',
+                  ),
+                  InfoBeasiswaCard(
+                    deviceWidth: deviceWidth,
+                    id: '1',
+                    imgSrc: 'assets/images/img_info_beasiswa_1.png',
+                    title: 'Open Donation Beasiswa Satyakarta',
+                  ),
+                  InfoBeasiswaCard(
+                    deviceWidth: deviceWidth,
+                    id: '1',
+                    imgSrc: 'assets/images/img_info_beasiswa_1.png',
+                    title: 'Open Donation Beasiswa Satyakarta',
+                  ),
+                  InfoBeasiswaCard(
+                    deviceWidth: deviceWidth,
+                    id: '1',
+                    imgSrc: 'assets/images/img_info_beasiswa_1.png',
+                    title: 'Open Donation Beasiswa Satyakarta',
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(

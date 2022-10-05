@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ruang_temu_apps/Models/call_center.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/themes.dart';
@@ -63,114 +64,117 @@ class _HalounyPageState extends State<HalounyPage> {
               ),
             ),
           ),
-          ListView(
-            children: [
-              SizedBox(
-                // height: deviceHeight - 170.h,
-                height: 200.h,
-              ),
-              Container(
-                height: 70.h,
-                // height: (listLength < 4) ? deviceHeight - 200.h : 100.h,
-                decoration: BoxDecoration(
-                  color: blueColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.r),
-                    topRight: Radius.circular(30.r),
-                  ),
-                  border: Border.all(
-                    width: 0,
-                    color: blueColor,
-                  ),
+          ScrollConfiguration(
+            behavior: CustomScroll(),
+            child: ListView(
+              children: [
+                SizedBox(
+                  // height: deviceHeight - 170.h,
+                  height: 200.h,
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10.h,
+                Container(
+                  height: 70.h,
+                  // height: (listLength < 4) ? deviceHeight - 200.h : 100.h,
+                  decoration: BoxDecoration(
+                    color: blueColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.r),
+                      topRight: Radius.circular(30.r),
                     ),
-                    Container(
-                      width: 70.w,
-                      height: 3.h,
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(30.r),
-                      ),
-                    ),
-                    Container(
+                    border: Border.all(
+                      width: 0,
                       color: blueColor,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      child: Text(
-                        'HalloUNY! adalah Call Center untuk menerima layanan\naduan mengenai masalah di lingkungan kampus.',
-                        style: heading3TextStyle.copyWith(
-                          color: whiteColor,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                     ),
-                  ],
-                ),
-              ),
-
-              //card builder
-              FutureBuilder<List<Callcenter>>(
-                future: futureCallcenter,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                        children: snapshot.data
-                                ?.map((e) => CallCenterCard(
-                                      imgSrc: e.logoUrl ??
-                                          'assets/logos/logo_advokesma.png',
-                                      title: e.name,
-                                      subtitle: e.description,
-                                      // url: e.url,
-                                      // url: "https:www.uny.ac.id",
-                                      url: e.url,
-                                    ))
-                                .toList() ??
-                            []);
-                  } else if (!snapshot.hasData) {
-                    return Container(
-                      width: deviceWidth,
-                      height: 300.h,
-                      decoration: BoxDecoration(
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Container(
+                        width: 70.w,
+                        height: 3.h,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      Container(
                         color: blueColor,
-                        border: Border.all(
-                          width: 0,
-                          color: blueColor,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 10.h,
+                        ),
+                        child: Text(
+                          'HalloUNY! adalah Call Center untuk menerima layanan\naduan mengenai masalah di lingkungan kampus.',
+                          style: heading3TextStyle.copyWith(
+                            color: whiteColor,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator(
-                    color: Colors.white,
-                  );
-                },
-              ),
-              Container(
-                width: deviceWidth,
-                height: 100.h,
-                decoration: BoxDecoration(
-                  color: blueColor,
-                  border: Border.all(
-                    width: 0,
-                    color: blueColor,
+                    ],
                   ),
                 ),
-              ),
-            ],
+
+                //card builder
+                FutureBuilder<List<Callcenter>>(
+                  future: futureCallcenter,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                          children: snapshot.data
+                                  ?.map((e) => CallCenterCard(
+                                        imgSrc: e.logoUrl ??
+                                            'assets/logos/logo_advokesma.png',
+                                        title: e.name,
+                                        subtitle: e.description,
+                                        // url: e.url,
+                                        // url: "https:www.uny.ac.id",
+                                        url: e.url,
+                                      ))
+                                  .toList() ??
+                              []);
+                    } else if (!snapshot.hasData) {
+                      return Container(
+                        width: deviceWidth,
+                        height: 300.h,
+                        decoration: BoxDecoration(
+                          color: blueColor,
+                          border: Border.all(
+                            width: 0,
+                            color: blueColor,
+                          ),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+
+                    // By default, show a loading spinner.
+                    return const CircularProgressIndicator(
+                      color: Colors.white,
+                    );
+                  },
+                ),
+                Container(
+                  width: deviceWidth,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    color: blueColor,
+                    border: Border.all(
+                      width: 0,
+                      color: blueColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

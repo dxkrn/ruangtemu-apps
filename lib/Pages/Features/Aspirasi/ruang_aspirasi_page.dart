@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruang_temu_apps/Models/aspirasi.dart';
@@ -124,16 +125,19 @@ class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
           : Column(
               children: [
                 Expanded(
-                  child: ListView.builder(
-                    controller: _controller,
-                    itemCount: _posts.length,
-                    itemBuilder: ((_, index) => AspirasiCard(
-                          id: _posts[index].id,
-                          imgSrc: 'assets/images/img_male_avatar.png',
-                          name: _posts[index].user['name'],
-                          content: _posts[index].description,
-                          commentCount: _posts[index].aspirationCommentsCount,
-                        )),
+                  child: ScrollConfiguration(
+                    behavior: CustomScroll(),
+                    child: ListView.builder(
+                      controller: _controller,
+                      itemCount: _posts.length,
+                      itemBuilder: ((_, index) => AspirasiCard(
+                            id: _posts[index].id,
+                            imgSrc: 'assets/images/img_male_avatar.png',
+                            name: _posts[index].user['name'],
+                            content: _posts[index].description,
+                            commentCount: _posts[index].aspirationCommentsCount,
+                          )),
+                    ),
                   ),
                 ),
                 if (_isLoadMoreRunning == true)

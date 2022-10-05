@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 
 import '../../../Widgets/dialog_box.dart';
@@ -24,144 +25,150 @@ class _RuangLapakState extends State<RuangLapak> {
           title: 'Ruang Lapak', iconSrc: 'assets/icons/icon_troli.png'),
       body: Stack(
         children: [
-          ListView(
-            children: [
-              Container(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Container(
-                      width: 330.w,
-                      height: 100.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.r),
-                        color: yellowColor,
+          ScrollConfiguration(
+            behavior: CustomScroll(),
+            child: ListView(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 70.h,
                       ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 140.w,
-                            alignment: Alignment.bottomCenter,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.r),
-                                bottomLeft: Radius.circular(20.r),
+                      Container(
+                        width: 330.w,
+                        height: 100.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          color: yellowColor,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 140.w,
+                              alignment: Alignment.bottomCenter,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.r),
+                                  bottomLeft: Radius.circular(20.r),
+                                ),
+                              ),
+                              child: Image(
+                                image: AssetImage(
+                                    'assets/images/img_ill_lapak.png'),
                               ),
                             ),
-                            child: Image(
-                              image:
-                                  AssetImage('assets/images/img_ill_lapak.png'),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                              right: 10.w,
-                            ),
-                            width: 180.w,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Ruang Lapak',
-                                  style: heading1BoldTextStyle.copyWith(
-                                    color: blueColor,
+                            Container(
+                              padding: EdgeInsets.only(
+                                right: 10.w,
+                              ),
+                              width: 180.w,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Ruang Lapak',
+                                    style: heading1BoldTextStyle.copyWith(
+                                      color: blueColor,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Marketplace bagi mahasiswa UNY yang memiliki usaha dan partnership BEM KM UNY',
-                                  style: heading4TextStyle.copyWith(
-                                    color: blueColor,
+                                  Text(
+                                    'Marketplace bagi mahasiswa UNY yang memiliki usaha dan partnership BEM KM UNY',
+                                    style: heading4TextStyle.copyWith(
+                                      color: blueColor,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 24.h,
-                    ),
-                    Container(
-                      height: 30.h,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          SizedBox(
-                            width: 20.w,
-                          ),
-                          CategoriesButton(
-                            id: '0',
-                            text: 'Semua',
-                            isActive: true,
-                          ),
-                          CategoriesButton(
-                            id: '1',
-                            text: 'Populer',
-                          ),
-                          CategoriesButton(
-                            id: '2',
-                            text: 'Baru-baru ini',
-                          ),
-                          CategoriesButton(
-                            id: '3',
-                            text: 'Rekomendasi',
-                          ),
-                        ],
+                      SizedBox(
+                        height: 24.h,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
+                      Container(
+                        height: 30.h,
+                        child: ScrollConfiguration(
+                          behavior: CustomScroll(),
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              SizedBox(
+                                width: 20.w,
+                              ),
+                              CategoriesButton(
+                                id: '0',
+                                text: 'Semua',
+                                isActive: true,
+                              ),
+                              CategoriesButton(
+                                id: '1',
+                                text: 'Populer',
+                              ),
+                              CategoriesButton(
+                                id: '2',
+                                text: 'Baru-baru ini',
+                              ),
+                              CategoriesButton(
+                                id: '3',
+                                text: 'Rekomendasi',
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        childAspectRatio: 3 / 5,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        children: [
-                          ProductCardLapak(
-                            id: '1',
-                            imageSrc: 'assets/images/img_produk_1.png',
-                            title: 'Jus Sehat',
-                            price: '10.000',
-                          ),
-                          ProductCardLapak(
-                            id: '2',
-                            imageSrc: 'assets/images/img_produk_2.png',
-                            title: 'Kopi',
-                            price: '15.000',
-                          ),
-                          ProductCardLapak(
-                            id: '3',
-                            imageSrc: 'assets/images/img_produk_3.png',
-                            title: 'Daging Domba',
-                            price: '100.000',
-                          ),
-                          ProductCardLapak(
-                            id: '1',
-                            imageSrc: 'assets/images/img_produk_4.png',
-                            title: 'Mobil',
-                            price: '600.000.000',
-                          ),
-                        ],
+                      SizedBox(
+                        height: 20.h,
                       ),
-                    ),
-                  ],
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          childAspectRatio: 3 / 5,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                          children: [
+                            ProductCardLapak(
+                              id: '1',
+                              imageSrc: 'assets/images/img_produk_1.png',
+                              title: 'Jus Sehat',
+                              price: '10.000',
+                            ),
+                            ProductCardLapak(
+                              id: '2',
+                              imageSrc: 'assets/images/img_produk_2.png',
+                              title: 'Kopi',
+                              price: '15.000',
+                            ),
+                            ProductCardLapak(
+                              id: '3',
+                              imageSrc: 'assets/images/img_produk_3.png',
+                              title: 'Daging Domba',
+                              price: '100.000',
+                            ),
+                            ProductCardLapak(
+                              id: '1',
+                              imageSrc: 'assets/images/img_produk_4.png',
+                              title: 'Mobil',
+                              price: '600.000.000',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 100.h,
-              ),
-            ],
+                SizedBox(
+                  height: 100.h,
+                ),
+              ],
+            ),
           ),
           Container(
             width: deviceWidth,

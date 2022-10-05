@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Models/survey.dart';
+import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -63,114 +64,117 @@ class _RuangSurveyState extends State<RuangSurvey> {
               ),
             ),
           ),
-          ListView(
-            children: [
-              SizedBox(
-                // height: deviceHeight - 170.h,
-                height: 200.h,
-              ),
-              Container(
-                height: 70.h,
-                // height: (listLength < 4) ? deviceHeight - 200.h : 100.h,
-                decoration: BoxDecoration(
-                  color: blueColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.r),
-                    topRight: Radius.circular(30.r),
-                  ),
-                  border: Border.all(
-                    width: 0,
+          ScrollConfiguration(
+            behavior: CustomScroll(),
+            child: ListView(
+              children: [
+                SizedBox(
+                  // height: deviceHeight - 170.h,
+                  height: 200.h,
+                ),
+                Container(
+                  height: 70.h,
+                  // height: (listLength < 4) ? deviceHeight - 200.h : 100.h,
+                  decoration: BoxDecoration(
                     color: blueColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.r),
+                      topRight: Radius.circular(30.r),
+                    ),
+                    border: Border.all(
+                      width: 0,
+                      color: blueColor,
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      width: 70.w,
-                      height: 3.h,
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(30.r),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.h,
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.r),
-                        color: blueColor,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      child: Text(
-                        'Ruang Survey berisi survey menarik yang dikelola oleh Kementerian Riset dan Data BEM KM UNY ',
-                        style: heading3TextStyle.copyWith(
+                      Container(
+                        width: 70.w,
+                        height: 3.h,
+                        decoration: BoxDecoration(
                           color: whiteColor,
+                          borderRadius: BorderRadius.circular(30.r),
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-
-              //card builder
-              FutureBuilder<List<Survey>>(
-                future: futureSurvey,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                        children: snapshot.data
-                                ?.map(
-                                  (e) => SurveyCard(
-                                    title: e.name,
-                                    url: e.url,
-                                  ),
-                                )
-                                .toList() ??
-                            []);
-                  } else if (!snapshot.hasData) {
-                    return Container(
-                      width: deviceWidth,
-                      height: 300.h,
-                      decoration: BoxDecoration(
-                        color: blueColor,
-                        border: Border.all(
-                          width: 0,
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.r),
                           color: blueColor,
                         ),
-                      ),
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 10.h,
+                        ),
+                        child: Text(
+                          'Ruang Survey berisi survey menarik yang dikelola oleh Kementerian Riset dan Data BEM KM UNY ',
+                          style: heading3TextStyle.copyWith(
+                            color: whiteColor,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator(
-                    color: Colors.white,
-                  );
-                },
-              ),
-              Container(
-                width: deviceWidth,
-                height: 100.h,
-                decoration: BoxDecoration(
-                  color: blueColor,
-                  border: Border.all(
-                    width: 0,
-                    color: blueColor,
+                    ],
                   ),
                 ),
-              ),
-            ],
+
+                //card builder
+                FutureBuilder<List<Survey>>(
+                  future: futureSurvey,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                          children: snapshot.data
+                                  ?.map(
+                                    (e) => SurveyCard(
+                                      title: e.name,
+                                      url: e.url,
+                                    ),
+                                  )
+                                  .toList() ??
+                              []);
+                    } else if (!snapshot.hasData) {
+                      return Container(
+                        width: deviceWidth,
+                        height: 300.h,
+                        decoration: BoxDecoration(
+                          color: blueColor,
+                          border: Border.all(
+                            width: 0,
+                            color: blueColor,
+                          ),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+
+                    // By default, show a loading spinner.
+                    return const CircularProgressIndicator(
+                      color: Colors.white,
+                    );
+                  },
+                ),
+                Container(
+                  width: deviceWidth,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    color: blueColor,
+                    border: Border.all(
+                      width: 0,
+                      color: blueColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

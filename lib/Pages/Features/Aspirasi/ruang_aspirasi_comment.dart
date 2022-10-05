@@ -47,6 +47,9 @@ class _RuangAspirasiCommentState extends State<RuangAspirasiComment> {
                   CommentCard(deviceWidth: deviceWidth),
                   CommentCard(deviceWidth: deviceWidth),
                   CommentCard(deviceWidth: deviceWidth),
+                  SizedBox(
+                    height: 100.h,
+                  ),
                 ],
               ),
             ),
