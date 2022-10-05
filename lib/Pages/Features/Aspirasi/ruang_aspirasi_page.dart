@@ -1,29 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:http/http.dart' as http;
-import '../../../Models/aspirasi.dart';
+import 'package:ruang_temu_apps/Models/aspirasi.dart';
 import '../../../Widgets/feature_appbar.dart';
 import '../../../env.dart';
-
-Future<List<Aspirasi>> fetchSurvey() async {
-  final response = await http.get(Uri.parse("$baseAPIUrl/aspirations?page=1"));
-
-  if (response.statusCode == 200) {
-    Map<String, dynamic> m = json.decode(response.body);
-    Iterable l = m['data'];
-    // Iterable l = json.decode(m['data'].toString());
-    return List<Aspirasi>.from(l.map((model) => Aspirasi.fromJson(model)));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load survey');
-  }
-}
+import 'package:get/get.dart';
 
 class RuangAspirasiPage extends StatefulWidget {
   const RuangAspirasiPage({super.key});
@@ -34,11 +20,95 @@ class RuangAspirasiPage extends StatefulWidget {
 
 class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
   late Future<List<Aspirasi>> futureSurvey;
+  late ScrollController _controller;
+
+  int _page = 0;
+  final int _limit = 10;
+  bool _hasNextPage = true;
+  bool _isFirstLoadRunning = false;
+  bool _isLoadMoreRunning = false;
+  List _posts = [];
+
+  void _firstLoad() async {
+    setState(() {
+      _isFirstLoadRunning = true;
+    });
+    print("$baseAPIUrl/aspirations?page=$_page&limit=$_limit");
+    final res = await http
+        .get(Uri.parse("$baseAPIUrl/aspirations?page=$_page&limit=$_limit"));
+
+    if (res.statusCode == 200) {
+      setState(() {
+        Map<String, dynamic> m = json.decode(res.body);
+
+        Iterable l = m['data'];
+        _posts =
+            List<Aspirasi>.from(l.map((model) => Aspirasi.fromJson(model)));
+      });
+    } else {
+      throw Exception('Failed to load survey on first');
+    }
+
+    setState(() {
+      _isFirstLoadRunning = false;
+    });
+  }
+
+  void _loadMore() async {
+    if (_hasNextPage == true &&
+        _isFirstLoadRunning == false &&
+        _isLoadMoreRunning == false &&
+        _controller.position.extentAfter < 300) {
+      setState(() {
+        _isLoadMoreRunning = true; // Display a progress indicator at the bottom
+        _page++; // Increase _page by 1
+      });
+      final res = await http
+          .get(Uri.parse("$baseAPIUrl/aspirations?page=$_page&limit=$_limit"));
+
+      if (res.statusCode == 200) {
+        Map<String, dynamic> m = json.decode(res.body);
+        String? nextPageUrl = m['next_page_url'];
+
+        setState(() {
+          _hasNextPage = nextPageUrl != null;
+        });
+
+        Iterable l = m['data'];
+        final List fetchedPosts =
+            List<Aspirasi>.from(l.map((model) => Aspirasi.fromJson(model)));
+        if (fetchedPosts.isNotEmpty) {
+          setState(() {
+            _posts.addAll(fetchedPosts);
+          });
+        } else {
+          // This means there is no more data
+          // and therefore, we will not send another GET request
+          setState(() {
+            _hasNextPage = false;
+          });
+        }
+      } else {
+        throw Exception('Failed to load survey on next');
+      }
+
+      setState(() {
+        _isLoadMoreRunning = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    futureSurvey = fetchSurvey();
+    _firstLoad();
+    _controller = ScrollController()..addListener(_loadMore);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_loadMore);
+    super.dispose();
   }
 
   @override
@@ -48,66 +118,43 @@ class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
         title: 'Ruang Aspirasi',
         iconSrc: 'assets/icons/icon_mail.png',
       ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.w,
-          ),
-          child: Stack(
-            children: [
-              ListView(
-                children: [
-                  SizedBox(
-                    height: 90.h,
+      body: _isFirstLoadRunning
+          ? const Center(
+              child: CircularProgressIndicator(color: Color(0xff18345C)))
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    controller: _controller,
+                    itemCount: _posts.length,
+                    itemBuilder: ((_, index) => AspirasiCard(
+                          id: _posts[index].id,
+                          imgSrc: 'assets/images/img_male_avatar.png',
+                          name: _posts[index].user['name'],
+                          content: _posts[index].description,
+                          commentCount: _posts[index].aspirationCommentsCount,
+                        )),
                   ),
-
-                  //card builder
-                  FutureBuilder<List<Aspirasi>>(
-                    future: futureSurvey,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                            children: snapshot.data
-                                    ?.map(
-                                      (e) => AspirasiCard(
-                                        id: e.id,
-                                        imgSrc:
-                                            'assets/images/img_male_avatar.png',
-                                        name: e.user['name'],
-                                        content: e.description,
-                                        commentCount: e.aspirationCommentsCount,
-                                      ),
-                                    )
-                                    .toList() ??
-                                []);
-                      } else if (!snapshot.hasData) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: blueColor,
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator(
-                        color: Colors.white,
-                      );
-                    },
+                ),
+                if (_isLoadMoreRunning == true)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 40),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xff18345C),
+                      ),
+                    ),
                   ),
-                  SizedBox(
-                    height: 100.h,
+                if (_hasNextPage == false)
+                  Container(
+                    padding: const EdgeInsets.only(top: 30, bottom: 40),
+                    color: Colors.amber,
+                    child: const Center(
+                      child: Text('You have fetched all of the content'),
+                    ),
                   ),
-                ],
-              ),
-              TitleTextBanner(
-                title: 'Aspirasi yang telah tertampung',
-              ),
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
     );
   }
 }
@@ -129,10 +176,12 @@ class AspirasiCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Container(
           padding: const EdgeInsets.all(10),
+          width: deviceWidth - 48.w,
           height: 150.h,
           decoration: BoxDecoration(
             color: yellowColor,
@@ -196,6 +245,13 @@ class AspirasiCard extends StatelessWidget {
                   maxLines: 3,
                 ),
               ),
+              Container(
+                width: deviceWidth - 50.w,
+                height: 0.5,
+                decoration: BoxDecoration(
+                  color: blueColor,
+                ),
+              ),
               SizedBox(
                 // color: blueColor,
                 width: 300.w,
@@ -210,14 +266,19 @@ class AspirasiCard extends StatelessWidget {
                         color: blueColor,
                       ),
                     ),
-                    Container(
-                      width: 20.h,
-                      height: 20.h,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/icons/icon_comment.png'),
+                    GestureDetector(
+                      child: Container(
+                        width: 20.h,
+                        height: 20.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/icons/icon_comment.png'),
+                          ),
                         ),
                       ),
+                      onTap: () {
+                        Get.to(RuangAspirasiComment());
+                      },
                     ),
                   ],
                 ),
@@ -233,6 +294,7 @@ class AspirasiCard extends StatelessWidget {
   }
 }
 
+//unused Widget, for title
 class TitleTextBanner extends StatelessWidget {
   TitleTextBanner({
     Key? key,

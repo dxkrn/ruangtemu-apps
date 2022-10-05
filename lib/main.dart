@@ -8,8 +8,10 @@ import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak_detail.dart';
 import 'package:ruang_temu_apps/Pages/accounts_page.dart';
+import 'package:ruang_temu_apps/Pages/login_page.dart';
 import 'package:ruang_temu_apps/Pages/settings_page.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
+import 'package:ruang_temu_apps/themes.dart';
 
 import 'Pages/Features/Aspirasi/ruang_aspirasi_form.dart';
 import 'Pages/Features/Aspirasi/ruang_aspirasi_page.dart';
@@ -34,12 +36,17 @@ class MyApp extends StatelessWidget {
     Get.put(UserController());
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
+        theme: ThemeData(scaffoldBackgroundColor: whiteColor),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/login',
         getPages: [
           GetPage(
             name: '/',
             page: () => const HomePage(),
+          ),
+          GetPage(
+            name: '/login',
+            page: () => const LoginPage(),
           ),
           GetPage(
             name: '/onboard',

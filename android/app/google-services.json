@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "763154572711-7hkfs0mklqcarumojifp0srrj4fkrqfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bemkmuny.ruangtemu",
+            "certificate_hash": "79d202d1f1a6de3c237bc2cbaa9a94e5d44c1a5f"
+          }
+        },
+        {
           "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
           "client_type": 3
         }
