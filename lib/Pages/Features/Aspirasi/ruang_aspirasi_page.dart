@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment.dart';
+import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment_page.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:http/http.dart' as http;
@@ -281,7 +282,7 @@ class AspirasiCard extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Get.to(RuangAspirasiComment());
+                        Get.to(RuangAspirasiCommentPage());
                       },
                     ),
                   ],
