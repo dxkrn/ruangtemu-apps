@@ -37,6 +37,7 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                 builder: (context) {
                   return DialogBox(
                     widget: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
@@ -70,19 +71,22 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                             ),
                           ],
                         ),
-                        TextField(
-                          style: heading1MediumTextStyle.copyWith(
-                            color: blueColor,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: heading1MediumTextStyle.copyWith(
-                              color: blueColor.withOpacity(0.5),
+                        SizedBox(
+                          height: 110.h,
+                          child: TextField(
+                            style: heading1MediumTextStyle.copyWith(
+                              color: blueColor,
                             ),
-                            hintText: 'Ketik Komentar Anda..',
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintStyle: heading1MediumTextStyle.copyWith(
+                                color: blueColor.withOpacity(0.5),
+                              ),
+                              hintText: 'Ketik Komentar Anda..',
+                            ),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 5,
                           ),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 4,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -110,7 +114,7 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                         ),
                       ],
                     ),
-                    height: 180.h,
+                    height: 200.h,
                   );
                 });
           });

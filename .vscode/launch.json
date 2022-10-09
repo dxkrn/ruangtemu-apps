@@ -39,6 +39,12 @@
             "type": "dart",
             "deviceId": "920df4b4"
         },
+        {
+            "name": "Mi 8",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "4ef32db2"
+        },
     ],
     "compounds": [
         {
