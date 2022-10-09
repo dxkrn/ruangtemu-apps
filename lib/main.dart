@@ -23,8 +23,13 @@ import 'Pages/Features/Info/ruang_info.dart';
 import 'Pages/Features/Survey/ruang_survey.dart';
 import 'Pages/home_page.dart';
 import 'Pages/onboarding_page.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  //for portrait orientation only
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
