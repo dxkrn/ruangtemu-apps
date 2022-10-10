@@ -5,7 +5,7 @@ import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:get/get.dart';
-import '../../../Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 
 class RuangAspirasiThanks extends StatelessWidget {
   const RuangAspirasiThanks({super.key});

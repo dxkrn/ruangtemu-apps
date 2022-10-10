@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:get/get.dart';
-import '../../../themes.dart';
+import 'package:ruang_temu_apps/themes.dart';
 
 class InfoInternhipPage extends StatelessWidget {
   const InfoInternhipPage({super.key});

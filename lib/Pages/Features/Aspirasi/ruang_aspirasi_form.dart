@@ -4,6 +4,8 @@ import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,45 @@ class RuangAspirasiForm extends StatefulWidget {
 
 class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
   bool isChecked = false;
+
+  final TextEditingController _messageController = TextEditingController();
+
+  void handleSubmit() async {
+    if (_messageController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Isi pesan terlebih dahulu',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } else {
+      httpClient.post("$baseAPIUrl/aspirations", {
+        "message": _messageController.value.text,
+        "is_anonymous": isChecked.toString()
+      }).then((value) {
+        print(value.body);
+        Get.snackbar(
+          'Berhasil',
+          'Aspirasi berhasil dikirim',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        _messageController.clear();
+        Get.toNamed('/aspirasiThanks');
+      }).catchError((error) {
+        Get.snackbar(
+          'Error',
+          'Aspirasi gagal dikirim',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // double deviceWidth = MediaQuery.of(context).size.width;
@@ -104,6 +145,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                             ),
                           ),
                           child: TextField(
+                            controller: _messageController,
                             keyboardType: TextInputType.multiline,
                             minLines: 1,
                             maxLines: 7,
@@ -203,7 +245,7 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
                               buttonColor: yellowColor,
                               textColor: blueColor,
                               onPressed: () {
-                                Get.toNamed('/aspirasiThanks');
+                                handleSubmit();
                               },
                             ),
                           ],

@@ -1,20 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ruang_temu_apps/Pages/home_page.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../Widgets/rounded_button.dart';
+import 'package:ruang_temu_apps/env.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId:
-      '763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com',
-  serverClientId:
-      '821080673605-djicbo65f7qd9el2sr7sg6nnhgaa2756.apps.googleusercontent.com',
-  scopes: [
+  scopes: <String>[
     'email',
-    'profile',
   ],
 );
 
@@ -26,17 +26,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  GoogleSignInAccount? _currentUser;
+  String warning = '';
+  final box = GetStorage();
+
+  @override
+  initState() {
+    super.initState();
+
+    if (box.read("api_key") != null) {
+      print("already has token");
+      handleMoveOut();
+      return;
+    }
+  }
 
   Future<void> _handleSignIn() async {
     try {
-      print('sign in');
-      if (_currentUser != null) {
-        await _googleSignIn.signOut();
-        print('Signed out');
+      if (box.read("api_key") != null) {
+        print("already has token");
+        handleMoveOut();
+        return;
       }
 
-      Get.off(const HomePage());
+      print('sign in');
+
+      _googleSignIn.signOut();
 
       GoogleSignInAccount? account = await _googleSignIn.signIn();
 
@@ -44,28 +58,64 @@ class _LoginPageState extends State<LoginPage> {
           await account?.authentication;
 
       String? accessToken = authentication?.accessToken;
+      print("accessToken: $accessToken");
+      final res = await httpClient
+          .post("$baseAPIUrl/login", {"token": accessToken ?? ""});
 
-      print('access token : $accessToken');
-      print('account : $account');
+      print("$baseAPIUrl/login");
+      print(res.body);
+      dynamic data = jsonDecode(res.body);
+
+      if (data['status'] == true) {
+        box.write('api_key', data['token']);
+        handleMoveOut();
+        print('Signed in');
+      } else {
+        setState(() {
+          warning = data['message'];
+        });
+      }
     } catch (error) {
       print('error');
       print(error);
+
+      setState(() {
+        warning = error.toString();
+      });
+
+      _googleSignIn.signOut();
+      box.remove("api_key");
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+  void handleMoveOut() async {
+    try {
+      final res = await httpClient.get("$baseAPIUrl/me");
+      dynamic data = jsonDecode(res.body);
+
+      if (data != null) {
+        Get.find<UserController>().setUser(User.fromJson(data));
+        Get.offAndToNamed("/");
+      } else {
+        Get.find<UserController>().clearUser();
+
+        setState(() {
+          warning = 'Gagal mendapatkan data user';
+        });
+
+        _googleSignIn.signOut();
+        box.remove("api_key");
+      }
+    } catch (e) {
+      Get.find<UserController>().clearUser();
+
       setState(() {
-        _currentUser = account;
-        final UserController userController = Get.find();
-        userController.updateName(
-            account?.displayName ?? "No Name"); // nullish coelascing
-        print(account);
+        warning = 'Gagal mendapatkan data user';
       });
-    });
-    // _googleSignIn.signInSilently();
+
+      await _googleSignIn.signOut();
+      await box.remove("api_key");
+    }
   }
 
   bool obscureText = true;
@@ -188,6 +238,11 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 10.h,
                     ),
+                    warning.isNotEmpty
+                        ? Text(warning,
+                            style: heading1MediumTextStyle.copyWith(
+                                fontSize: 26, color: Colors.red))
+                        : Container(),
                     RoundedButton(
                       width: 250.w,
                       height: 50,

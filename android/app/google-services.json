@@ -1,47 +1,48 @@
 {
-  "project_info": {
-    "project_number": "763154572711",
-    "project_id": "ruangtemu-bemkmuny",
-    "storage_bucket": "ruangtemu-bemkmuny.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:763154572711:android:eca61e6362f4cf4542c282",
-        "android_client_info": {
-          "package_name": "com.bemkmuny.ruangtemu"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "763154572711-7hkfs0mklqcarumojifp0srrj4fkrqfu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bemkmuny.ruangtemu",
-            "certificate_hash": "79d202d1f1a6de3c237bc2cbaa9a94e5d44c1a5f"
-          }
-        },
-        {
-          "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDlcAeNwi3a_s460NSrIy9KyoVUTuoLC0M"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
-              "client_type": 3
+    "project_info": {
+        "project_number": "763154572711",
+        "project_id": "ruangtemu-bemkmuny",
+        "storage_bucket": "ruangtemu-bemkmuny.appspot.com"
+    },
+    "client": [{
+        "client_info": {
+            "mobilesdk_app_id": "1:763154572711:android:eca61e6362f4cf4542c282",
+            "android_client_info": {
+                "package_name": "com.bemkmuny.ruangtemu"
             }
-          ]
+        },
+        "oauth_client": [{
+                "client_id": "763154572711-2qr9u1aruev1s5hcalad9jt5339osr1v.apps.googleusercontent.com",
+                "client_type": 1,
+                "android_info": {
+                    "package_name": "com.bemkmuny.ruangtemu",
+                    "certificate_hash": "62280cc57f2eda9b922d2b54519d30388f9dad43"
+                }
+            },
+            {
+                "client_id": "763154572711-7hkfs0mklqcarumojifp0srrj4fkrqfu.apps.googleusercontent.com",
+                "client_type": 1,
+                "android_info": {
+                    "package_name": "com.bemkmuny.ruangtemu",
+                    "certificate_hash": "79d202d1f1a6de3c237bc2cbaa9a94e5d44c1a5f"
+                }
+            },
+            {
+                "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
+                "client_type": 3
+            }
+        ],
+        "api_key": [{
+            "current_key": "AIzaSyDlcAeNwi3a_s460NSrIy9KyoVUTuoLC0M"
+        }],
+        "services": {
+            "appinvite_service": {
+                "other_platform_oauth_client": [{
+                    "client_id": "763154572711-rkl4e9i79do2imm553uhqil350e6harr.apps.googleusercontent.com",
+                    "client_type": 3
+                }]
+            }
         }
-      }
-    }
-  ],
-  "configuration_version": "1"
+    }],
+    "configuration_version": "1"
 }

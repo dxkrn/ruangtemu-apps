@@ -7,7 +7,7 @@ import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:get/get.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
-import '../../../themes.dart';
+import 'package:ruang_temu_apps/themes.dart';
 
 class RuangEdukasi extends StatefulWidget {
   const RuangEdukasi({super.key});

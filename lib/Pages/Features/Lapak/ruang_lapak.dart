@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 
-import '../../../Widgets/dialog_box.dart';
-import '../../../Widgets/rounded_button.dart';
-import '../../../themes.dart';
+import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
+import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
+import 'package:ruang_temu_apps/themes.dart';
 
 class RuangLapak extends StatefulWidget {
   const RuangLapak({super.key});

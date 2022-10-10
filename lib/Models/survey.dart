@@ -16,24 +16,22 @@ class Survey {
     required this.name,
     required this.description,
     required this.url,
-    required this.logoUrl,
-    required this.authorID,
     required this.clickCount,
     required this.createdAt,
     required this.updatedAt,
-    required this.author,
+    logoUrl,
+    authorName,
   });
 
   int id;
   String name;
   String description;
   String url;
-  dynamic logoUrl;
-  int authorID;
+  String? logoUrl;
+  String? authorName;
   int clickCount;
   DateTime createdAt;
   DateTime updatedAt;
-  Map author;
 
   factory Survey.fromJson(Map<String, dynamic> json) => Survey(
         id: json["id"],
@@ -41,11 +39,10 @@ class Survey {
         description: json["description"],
         url: json["url"],
         logoUrl: json["logo_url"],
-        authorID: json["author_id"],
+        authorName: json["author_name"],
         clickCount: json["click_count"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        author: json["author"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,10 +51,9 @@ class Survey {
         "description": description,
         "url": url,
         "logo_url": logoUrl,
-        "author_id": authorID,
+        "author_name": authorName,
         "click_count": clickCount,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-        "author": author,
       };
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi_detail.dart';
 import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_detail.dart';
@@ -25,7 +26,8 @@ import 'Pages/home_page.dart';
 import 'Pages/onboarding_page.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   //for portrait orientation only
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(

@@ -9,7 +9,9 @@ import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
 class RuangAspirasiCommentPage extends StatefulWidget {
-  const RuangAspirasiCommentPage({super.key});
+  int aspirationId;
+
+  RuangAspirasiCommentPage({super.key, required this.aspirationId});
 
   @override
   State<RuangAspirasiCommentPage> createState() =>
@@ -22,7 +24,6 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
     double deviceWidth = MediaQuery.of(context).size.width;
     bool isCheckedUjaran = false;
     bool isCheckedSpam = false;
-
     return Scaffold(
       appBar: FeatureAppbar(
         title: 'Ruang Aspirasi',

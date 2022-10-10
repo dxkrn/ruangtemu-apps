@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
@@ -392,7 +395,19 @@ class _SettingsPageState extends State<SettingsPage> {
                                   borderColor: blueColor,
                                   borderWidth: 1.w,
                                   textColor: blueColor,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    final box = GetStorage();
+                                    box.remove('token');
+                                    Get.find<UserController>().clearUser();
+                                    Get.offAllNamed('/login');
+                                    Get.snackbar(
+                                      'Berhasil',
+                                      'Anda berhasil logout',
+                                      backgroundColor: Colors.white,
+                                      colorText: Colors.black,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                    );
+                                  },
                                 ),
                                 RoundedButton(
                                   width: 100.w,

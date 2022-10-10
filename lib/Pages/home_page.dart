@@ -54,13 +54,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )),
             ElevatedButton.icon(
-                onPressed: () {
-                  userController.updateName(
-                    userController.user.value.name == 'Damar Albaribin'
-                        ? "Dicky Kun"
-                        : 'Damar Albaribin',
-                  );
-                },
+                onPressed: () {},
                 icon: const Icon(Icons.help),
                 label: const Text("Debug")),
           ],

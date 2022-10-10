@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
-import '../../../Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 
 class InfoBeasiswaDetail extends StatelessWidget {
   const InfoBeasiswaDetail({super.key});

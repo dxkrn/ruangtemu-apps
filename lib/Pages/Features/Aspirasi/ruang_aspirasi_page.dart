@@ -3,14 +3,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment.dart';
 import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment_page.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
+import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
-import 'package:http/http.dart' as http;
 import 'package:ruang_temu_apps/Models/aspirasi.dart';
-import '../../../Widgets/feature_appbar.dart';
-import '../../../env.dart';
 import 'package:get/get.dart';
 
 class RuangAspirasiPage extends StatefulWidget {
@@ -36,8 +35,8 @@ class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
       _isFirstLoadRunning = true;
     });
     print("$baseAPIUrl/aspirations?page=$_page&limit=$_limit");
-    final res = await http
-        .get(Uri.parse("$baseAPIUrl/aspirations?page=$_page&limit=$_limit"));
+    final res = await httpClient
+        .get("$baseAPIUrl/aspirations?page=$_page&limit=$_limit");
 
     if (res.statusCode == 200) {
       setState(() {
@@ -65,8 +64,8 @@ class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
         _isLoadMoreRunning = true; // Display a progress indicator at the bottom
         _page++; // Increase _page by 1
       });
-      final res = await http
-          .get(Uri.parse("$baseAPIUrl/aspirations?page=$_page&limit=$_limit"));
+      final res = await httpClient
+          .get("$baseAPIUrl/aspirations?page=$_page&limit=$_limit");
 
       if (res.statusCode == 200) {
         Map<String, dynamic> m = json.decode(res.body);
@@ -133,9 +132,10 @@ class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
                       itemCount: _posts.length,
                       itemBuilder: ((_, index) => AspirasiCard(
                             id: _posts[index].id,
-                            imgSrc: 'assets/images/img_male_avatar.png',
+                            imgSrc: _posts[index].user['avatar'] ??
+                                'assets/images/img_male_avatar.png',
                             name: _posts[index].user['name'],
-                            content: _posts[index].description,
+                            content: _posts[index].message,
                             commentCount: _posts[index].aspirationCommentsCount,
                           )),
                     ),
@@ -174,7 +174,7 @@ class AspirasiCard extends StatelessWidget {
     required this.commentCount,
   }) : super(key: key);
   int id;
-  String imgSrc;
+  String? imgSrc;
   String name;
   String content;
   int commentCount;
@@ -203,13 +203,19 @@ class AspirasiCard extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           child: Container(
+                            // rounded corners
                             decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  imgSrc,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
+                              shape: BoxShape.circle,
+                              image: imgSrc != null
+                                  ? DecorationImage(
+                                      image: NetworkImage(imgSrc!),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/img_male_avatar.png"),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),
@@ -282,7 +288,7 @@ class AspirasiCard extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Get.to(RuangAspirasiCommentPage());
+                        Get.to(RuangAspirasiCommentPage(aspirationId: id));
                       },
                     ),
                   ],

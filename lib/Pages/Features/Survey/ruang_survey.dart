@@ -7,14 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Models/survey.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
-import 'package:http/http.dart' as http;
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../env.dart';
-import '../../../themes.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/themes.dart';
 
 Future<List<Survey>> fetchSurvey() async {
-  final response = await http.get(Uri.parse("$baseAPIUrl/surveys"));
+  final response = await httpClient.get("$baseAPIUrl/surveys");
 
   if (response.statusCode == 200) {
     Iterable l = json.decode(response.body);
@@ -183,11 +183,12 @@ class _RuangSurveyState extends State<RuangSurvey> {
 }
 
 class SurveyCard extends StatefulWidget {
-  SurveyCard({Key? key, required this.title, required this.url})
+  SurveyCard({Key? key, required this.title, required this.url, this.logoUrl})
       : super(key: key);
 
   String title;
   String url;
+  final String? logoUrl;
 
   @override
   State<SurveyCard> createState() => _SurveyCardState();
@@ -229,9 +230,9 @@ class _SurveyCardState extends State<SurveyCard> {
                   SizedBox(
                     width: 40.h,
                     height: 40.h,
-                    child: const Image(
-                      image: AssetImage('assets/icons/icon_survey_light.png'),
-                    ),
+                    child: widget.logoUrl != null
+                        ? Image.network(widget.logoUrl!)
+                        : Image.asset('assets/icons/icon_survey_light.png'),
                   ),
                   SizedBox(
                     width: 10.w,
