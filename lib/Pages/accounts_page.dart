@@ -4,6 +4,7 @@ import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/themes.dart';
+import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:get/get.dart';
 
 class AccountsPage extends StatelessWidget {
@@ -41,15 +42,26 @@ class AccountsPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 120.h,
-                    height: 120.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
-                    child: Image(
-                      image: AssetImage('assets/images/img_male_avatar.png'),
-                    ),
+                  SizedBox(
+                    width: 120.w,
+                    height: 120.w,
+                    child: userController.user.value.avatar == null
+                        ? CircleAvatar(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/img_male_avatar.png'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                '${userController.user.value.avatar}'),
+                            backgroundColor: yellowColor,
+                          ),
                   ),
                   SizedBox(
                     height: 10.h,
@@ -127,11 +139,12 @@ class AccountsPage extends StatelessWidget {
                         color: blueColor,
                       ),
                       decoration: InputDecoration(
-                        hintStyle: heading1MediumTextStyle.copyWith(
-                          color: blueColor.withAlpha(90),
-                        ),
-                        hintText: 'S1-Teknologi Informasi',
-                      ),
+                          hintStyle: heading1MediumTextStyle.copyWith(
+                            color: blueColor.withAlpha(90),
+                          ),
+                          // hintText: 'S1-Teknologi Informasi',
+                          hintText:
+                              '${userController.user.value.studyprogram}'),
                     ),
                   ),
                 ],

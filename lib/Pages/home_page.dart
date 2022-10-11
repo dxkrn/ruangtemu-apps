@@ -30,16 +30,23 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GestureDetector(
-              child: CircleAvatar(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/img_male_avatar.png'),
-                      fit: BoxFit.cover,
+              child: userController.user.value.avatar == null
+                  ? CircleAvatar(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image:
+                                AssetImage('assets/images/img_male_avatar.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    )
+                  : CircleAvatar(
+                      backgroundImage:
+                          NetworkImage('${userController.user.value.avatar}'),
+                      backgroundColor: yellowColor,
                     ),
-                  ),
-                ),
-              ),
               onTap: () {
                 Navigator.pushNamed(context, '/settingsPage');
               },

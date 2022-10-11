@@ -277,7 +277,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ],
                       ),
-                      height: 360.h,
+                      height: 400.h,
                     );
                   }),
                 );
@@ -293,6 +293,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   builder: ((context) {
                     return DialogBox(
                       widget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'PRIVACY AND POLICY',
@@ -317,7 +318,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ],
                       ),
-                      height: 400.h,
+                      height: 410.h,
                     );
                   }),
                 );
@@ -333,6 +334,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   builder: ((context) {
                     return DialogBox(
                       widget: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'PRIVACY AND POLICY',
@@ -357,7 +359,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ],
                       ),
-                      height: 400.h,
+                      height: 410.h,
                     );
                   }),
                 );
