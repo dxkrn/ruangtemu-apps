@@ -288,7 +288,15 @@ class AspirasiCard extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Get.to(RuangAspirasiCommentPage(aspirationId: id));
+                        Get.to(
+                          RuangAspirasiCommentPage(
+                            aspirationId: id,
+                            name: name,
+                            content: content,
+                            imgSrc: imgSrc,
+                            aspirasiCommentCount: commentCount,
+                          ),
+                        );
                       },
                     ),
                   ],

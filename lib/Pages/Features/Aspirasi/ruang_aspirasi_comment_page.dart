@@ -1,17 +1,33 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ruang_temu_apps/Models/aspirasi_comment.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
 class RuangAspirasiCommentPage extends StatefulWidget {
   int aspirationId;
+  String name;
+  String content;
+  String? imgSrc;
+  int aspirasiCommentCount = 0;
 
-  RuangAspirasiCommentPage({super.key, required this.aspirationId});
+  RuangAspirasiCommentPage({
+    super.key,
+    required this.aspirationId,
+    required this.name,
+    required this.content,
+    required this.imgSrc,
+    required this.aspirasiCommentCount,
+  });
 
   @override
   State<RuangAspirasiCommentPage> createState() =>
@@ -19,6 +35,99 @@ class RuangAspirasiCommentPage extends StatefulWidget {
 }
 
 class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
+  late Future<List<AspirasiComment>> futureAspirasiComment;
+  late ScrollController _controller;
+
+  int _page = 0;
+  final int _limit = 10;
+  bool _hasNextPage = true;
+  bool _isFirstLoadRunning = false;
+  bool _isLoadMoreRunning = false;
+  List _posts = [];
+
+  void _firstLoad() async {
+    setState(() {
+      _isFirstLoadRunning = true;
+    });
+    print(
+        "$baseAPIUrl/aspirations/${widget.aspirationId}/comments?per_page=10&page=$_page");
+    final res = await httpClient.get(
+        "$baseAPIUrl/aspirations/${widget.aspirationId}/comments?limit=$_limit&page=$_page");
+
+    if (res.statusCode == 200) {
+      setState(() {
+        Map<String, dynamic> m = json.decode(res.body);
+        print(m);
+        Iterable l = m['data'];
+        _posts = List<AspirasiComment>.from(
+            l.map((model) => AspirasiComment.fromJson(model)));
+      });
+    } else {
+      throw Exception('Failed to load comment on first');
+    }
+
+    setState(() {
+      _isFirstLoadRunning = false;
+    });
+  }
+
+  void _loadMore() async {
+    if (_hasNextPage == true &&
+        _isFirstLoadRunning == false &&
+        _isLoadMoreRunning == false &&
+        _controller.position.extentAfter < 300) {
+      setState(() {
+        _isLoadMoreRunning = true; // Display a progress indicator at the bottom
+        _page++; // Increase _page by 1
+      });
+      final res = await httpClient.get(
+          "$baseAPIUrl/aspirations/${widget.aspirationId}/comments?per_page=10&page=$_page");
+
+      if (res.statusCode == 200) {
+        Map<String, dynamic> m = json.decode(res.body);
+        String? nextPageUrl = m['next_page_url'];
+
+        setState(() {
+          _hasNextPage = nextPageUrl != null;
+        });
+
+        Iterable l = m['data'];
+        final List fetchedPosts = List<AspirasiComment>.from(
+            l.map((model) => AspirasiComment.fromJson(model)));
+        if (fetchedPosts.isNotEmpty) {
+          setState(() {
+            _posts.addAll(fetchedPosts);
+          });
+        } else {
+          // This means there is no more data
+          // and therefore, we will not send another GET request
+          setState(() {
+            _hasNextPage = false;
+          });
+        }
+      } else {
+        throw Exception('Failed to load comment on next');
+      }
+
+      setState(() {
+        _isLoadMoreRunning = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _firstLoad();
+    _controller = ScrollController()..addListener(_loadMore);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_loadMore);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -145,18 +254,22 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/img_male_avatar.png',
+                        widget.imgSrc == null
+                            ? CircleAvatar(
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/img_male_avatar.png'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(widget.imgSrc!),
+                                backgroundColor: yellowColor,
                               ),
-                            ),
-                          ),
-                        ),
                         SizedBox(
                           width: 10.w,
                         ),
@@ -165,7 +278,7 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                           width: 250.w,
                           height: 35.h,
                           child: Text(
-                            "Johan Brodi",
+                            widget.name,
                             style: heading1MediumTextStyle.copyWith(
                               color: blueColor,
                               overflow: TextOverflow.ellipsis,
@@ -338,7 +451,8 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                       // color: blueColor,
                       width: 350.w,
                       child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        widget.content,
+                        // "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         style: heading2TextStyle.copyWith(
                           color: blueColor,
                           overflow: TextOverflow.ellipsis,
@@ -365,7 +479,7 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '100 Komentar',
+                      '${widget.aspirasiCommentCount} Komentar',
                       style: heading3TextStyle.copyWith(
                         color: blueColor,
                       ),
@@ -391,9 +505,29 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
               ),
 
               //Card
-              CommentCard(deviceWidth: deviceWidth),
-              CommentCard(deviceWidth: deviceWidth),
-              CommentCard(deviceWidth: deviceWidth),
+              // CommentCard(deviceWidth: deviceWidth),
+              _isFirstLoadRunning
+                  ? const Center(
+                      child:
+                          CircularProgressIndicator(color: Color(0xff18345C)))
+                  : Expanded(
+                      child: ScrollConfiguration(
+                        behavior: CustomScroll(),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: _controller,
+                          itemCount: _posts.length,
+                          itemBuilder: ((_, index) => CommentCard(
+                                deviceWidth: deviceWidth,
+                                id: _posts[index].id,
+                                name: _posts[index].user['name'],
+                                comment: _posts[index].comment,
+                                imgSrc: _posts[index].user['avatar'],
+                              )),
+                        ),
+                      ),
+                    ),
 
               //sized box for extra space
               SizedBox(
@@ -408,12 +542,20 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
 }
 
 class CommentCard extends StatelessWidget {
-  const CommentCard({
+  CommentCard({
     Key? key,
     required this.deviceWidth,
+    required this.id,
+    required this.name,
+    required this.comment,
+    required this.imgSrc,
   }) : super(key: key);
 
   final double deviceWidth;
+  int id;
+  String name;
+  String comment;
+  String imgSrc;
 
   @override
   Widget build(BuildContext context) {
@@ -429,17 +571,21 @@ class CommentCard extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  // imgSrc == null
+                  //     ? CircleAvatar(
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //             image: DecorationImage(
+                  //               image: AssetImage(
+                  //                 'assets/images/img_male_avatar.png',
+                  //               ),
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       )
                   CircleAvatar(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/images/img_male_avatar.png',
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    backgroundImage: NetworkImage(imgSrc),
                   ),
                   SizedBox(
                     width: 10.w,
@@ -449,7 +595,8 @@ class CommentCard extends StatelessWidget {
                     width: 300.w,
                     height: 35.h,
                     child: Text(
-                      "Johan Brodi",
+                      // "Johan Brodi",
+                      name,
                       style: heading1MediumTextStyle.copyWith(
                         color: blueColor,
                         overflow: TextOverflow.ellipsis,
@@ -468,7 +615,8 @@ class CommentCard extends StatelessWidget {
                 ),
                 width: 350.w,
                 child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  comment,
+                  // "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                   style: heading2TextStyle.copyWith(
                     color: blueColor,
                     overflow: TextOverflow.ellipsis,

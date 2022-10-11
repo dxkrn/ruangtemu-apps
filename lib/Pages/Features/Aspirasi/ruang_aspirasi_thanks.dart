@@ -36,7 +36,7 @@ class RuangAspirasiThanks extends StatelessWidget {
               ),
               SizedBox(
                 child: Text(
-                  'Terimakasih, aspirasi mu sangat berharga untuk kami <3',
+                  'Terimakasih, aspirasimu sangat berharga untuk kami <3',
                   style: heading1MediumTextStyle.copyWith(
                     color: blueColor,
                   ),
