@@ -47,16 +47,24 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               width: 10.w,
             ),
-            Obx(() => Text(
+            Obx(
+              () => SizedBox(
+                width: deviceWidth - 90.w,
+                child: Text(
                   'Hi, ${userController.user.value.name}',
                   style: heading1MediumTextStyle.copyWith(
                     color: blueColor,
                   ),
-                )),
-            ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.help),
-                label: const Text("Debug")),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+
+            // ElevatedButton.icon(
+            //     onPressed: () {},
+            //     icon: const Icon(Icons.help),
+            //     label: const Text("Debug")),
           ],
         ),
       ),
