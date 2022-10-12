@@ -1,10 +1,16 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ruang_temu_apps/Models/news.dart';
+import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +21,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String mainCategory = 'main-category';
+
+  List<News> _news = [];
+  void _firstLoad() async {
+    try {
+      httpClient.get("$baseAPIUrl/").then((value) async {
+        var data = jsonDecode(value.body);
+        String _mainCategory = data['main-category'];
+        List<News> news = [];
+        final res = await httpClient
+            .get("$baseAPIUrl/news?page=1&limit=5t&category=$_mainCategory");
+
+        if (res.statusCode == 200) {
+          setState(() {
+            Map<String, dynamic> m = json.decode(res.body);
+
+            Iterable l = m['data'];
+            news.addAll(
+                List<News>.from(l.map((model) => News.fromJson(model))));
+          });
+        } else {
+          throw Exception('Failed to load news on first');
+        }
+        setState(() {
+          mainCategory = _mainCategory;
+          _news = news;
+        });
+      });
+      // ignore: empty_catches
+    } catch (e) {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _firstLoad();
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserController userController = Get.find();
@@ -169,17 +213,24 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Seputar Kampus',
+                            mainCategory,
                             style: heading2TextStyle.copyWith(
                               color: blueColor,
                             ),
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Lihat Semua',
-                                style: heading3TextStyle.copyWith(
-                                  color: blueColor,
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed('/edukasi',
+                                      arguments: RuangEdukasiArgs(
+                                          defaultCategory: mainCategory));
+                                },
+                                child: Text(
+                                  'Lihat Semua',
+                                  style: heading3TextStyle.copyWith(
+                                    color: blueColor,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -201,17 +252,10 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                             width: 20,
                           ),
-                          SeputarKampusCard(
-                            id: 'sk1',
-                            imgSrc: 'assets/images/img_seputar_1.png',
-                            title:
-                                'Pembangunan Gedung baru UNY, uang darimana?',
-                          ),
-                          SeputarKampusCard(
-                            id: 'sk2',
-                            imgSrc: 'assets/images/img_seputar_2.png',
-                            title: 'Bermusik menyehatkan jiwa raga',
-                          ),
+                          ..._news.map((e) => EdukasiCard(
+                              content: e.content,
+                              imageSrc: e.image,
+                              title: e.title)),
                         ],
                       ),
                     ),
@@ -383,55 +427,6 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-class SeputarKampusCard extends StatelessWidget {
-  SeputarKampusCard({
-    Key? key,
-    required this.id,
-    required this.imgSrc,
-    required this.title,
-  }) : super(key: key);
-  String id;
-  String imgSrc;
-  String title;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 1.34 * 150.h,
-          child: Column(
-            children: [
-              Container(
-                height: 110.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  image: DecorationImage(
-                    image: AssetImage(imgSrc),
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(5),
-                height: 40.h,
-                alignment: Alignment.topLeft,
-                child: Text(
-                  title,
-                  style: heading3TextStyle.copyWith(
-                    color: blueColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-      ],
-    );
-  }
-}
-
 class FiturUnggulanCard extends StatelessWidget {
   FiturUnggulanCard({
     Key? key,
@@ -523,6 +518,8 @@ class ExpandedAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _searchController = TextEditingController();
+
     return Container(
       width: deviceWidth,
       height: 85,
@@ -561,6 +558,7 @@ class ExpandedAppbar extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
             ),
             child: TextField(
+              controller: _searchController,
               style: heading1MediumTextStyle.copyWith(
                 color: whiteColor,
               ),
@@ -571,7 +569,15 @@ class ExpandedAppbar extends StatelessWidget {
                 ),
                 hintText: 'Coba "Beasiswa"',
                 suffixIcon: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (_searchController.text.isNotEmpty) {
+                      Get.toNamed('/edukasi',
+                          arguments: RuangEdukasiArgs(
+                              defaultSearch: _searchController.text));
+                    } else {
+                      Get.snackbar("Error", "Masukkan kata kunci");
+                    }
+                  },
                   child: Container(
                     width: 20,
                     height: 20,

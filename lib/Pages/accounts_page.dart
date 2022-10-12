@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
+import 'package:ruang_temu_apps/env.dart';
+import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:get/get.dart';
@@ -35,7 +40,7 @@ class AccountsPage extends StatelessWidget {
                 color: blueColor,
               ),
             ),
-            Container(
+            SizedBox(
               width: deviceWidth - 48.w,
               height: 150.h,
               // color: yellowColor,
@@ -66,12 +71,6 @@ class AccountsPage extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  Text(
-                    'Upload Foto',
-                    style: heading3TextStyle.copyWith(
-                      color: blueColor,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -85,7 +84,7 @@ class AccountsPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 90.w,
                     child: Text(
                       'Nama',
@@ -95,7 +94,7 @@ class AccountsPage extends StatelessWidget {
                     ),
                   ),
                   Obx(
-                    () => Container(
+                    () => SizedBox(
                       width: 230.w,
                       // color: blueColor,
                       child: TextField(
@@ -115,41 +114,50 @@ class AccountsPage extends StatelessWidget {
               ),
               // color: yellowColor,
             ),
-            Container(
-              width: deviceWidth - 48.w,
-              height: 40.h,
-              margin: EdgeInsets.only(bottom: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 90.w,
-                    child: Text(
-                      'Prodi',
-                      style: heading2TextStyle.copyWith(
-                        color: blueColor,
+            Obx(
+              () => Container(
+                width: deviceWidth - 48.w,
+                height: 40.h,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 90.w,
+                      child: Text(
+                        'Prodi',
+                        style: heading2TextStyle.copyWith(
+                          color: blueColor,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 230.w,
-                    // color: blueColor,
-                    child: TextField(
-                      style: heading2TextStyle.copyWith(
-                        color: blueColor,
+                    SizedBox(
+                      width: 230.w,
+                      child: DropdownSearch<Studyprogram>(
+                        itemAsString: (item) => item.name,
+                        asyncItems: (String filter) async {
+                          var response =
+                              await httpClient.get("$baseAPIUrl/studyprograms");
+
+                          if (response.statusCode == 200) {
+                            var data = jsonDecode(response.body) as List;
+                            return data
+                                .map((e) => Studyprogram.fromJson(e))
+                                .where((e) => e.name
+                                    .toLowerCase()
+                                    .contains(filter.toLowerCase()))
+                                .toList();
+                          } else {
+                            throw Exception("error fetching data");
+                          }
+                        },
+                        onChanged: (value) {},
                       ),
-                      decoration: InputDecoration(
-                          hintStyle: heading1MediumTextStyle.copyWith(
-                            color: blueColor.withAlpha(90),
-                          ),
-                          // hintText: 'S1-Teknologi Informasi',
-                          hintText:
-                              '${userController.user.value.studyprogram}'),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                // color: yellowColor,
               ),
-              // color: yellowColor,
             ),
             Container(
               width: deviceWidth - 48.w,
@@ -158,7 +166,7 @@ class AccountsPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 90.w,
                     child: Text(
                       'Angkatan',
@@ -167,18 +175,21 @@ class AccountsPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 230.w,
-                    // color: blueColor,
-                    child: TextField(
-                      style: heading2TextStyle.copyWith(
-                        color: blueColor,
-                      ),
-                      decoration: InputDecoration(
-                        hintStyle: heading1MediumTextStyle.copyWith(
-                          color: blueColor.withAlpha(90),
+                  Obx(
+                    () => SizedBox(
+                      width: 230.w,
+                      // color: blueColor,
+                      child: TextField(
+                        style: heading2TextStyle.copyWith(
+                          color: blueColor,
                         ),
-                        hintText: '2021',
+                        decoration: InputDecoration(
+                          hintStyle: heading1MediumTextStyle.copyWith(
+                            color: blueColor.withAlpha(90),
+                          ),
+                          hintText: userController.user.value.generationYear
+                              .toString(),
+                        ),
                       ),
                     ),
                   ),

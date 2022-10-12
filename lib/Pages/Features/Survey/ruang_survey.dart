@@ -2,8 +2,10 @@
 
 import 'dart:convert';
 
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:ruang_temu_apps/Models/survey.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
@@ -12,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/themes.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 Future<List<Survey>> fetchSurvey() async {
   final response = await httpClient.get("$baseAPIUrl/surveys");
@@ -129,6 +132,7 @@ class _RuangSurveyState extends State<RuangSurvey> {
                           children: snapshot.data
                                   ?.map(
                                     (e) => SurveyCard(
+                                      id: e.id,
                                       title: e.name,
                                       url: e.url,
                                     ),
@@ -183,11 +187,17 @@ class _RuangSurveyState extends State<RuangSurvey> {
 }
 
 class SurveyCard extends StatefulWidget {
-  SurveyCard({Key? key, required this.title, required this.url, this.logoUrl})
+  SurveyCard(
+      {Key? key,
+      required this.title,
+      required this.url,
+      required this.id,
+      this.logoUrl})
       : super(key: key);
 
   String title;
   String url;
+  int id;
   final String? logoUrl;
 
   @override
@@ -197,7 +207,19 @@ class SurveyCard extends StatefulWidget {
 class _SurveyCardState extends State<SurveyCard> {
   //Function for Launch URL
   openUrl() async {
-    await launchUrl(Uri.parse(widget.url));
+    httpClient
+        .post("$baseAPIUrl/surveys/click", {"id": widget.id.toString()}).then(
+            (value) => print("click reported id : ${widget.id.toString()}"));
+
+    if (GetPlatform.isAndroid) {
+      AndroidIntent intent = AndroidIntent(
+        action: 'action_view',
+        data: widget.url,
+      );
+      await intent.launch();
+    } else {
+      await launchUrlString(widget.url);
+    }
   }
 
   @override

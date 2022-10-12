@@ -168,6 +168,7 @@ class InfoCard extends StatelessWidget {
   // String iconSrc;
   String title;
   openUrl() async {
+    print(url);
     await launchUrl(Uri.parse(url));
   }
 

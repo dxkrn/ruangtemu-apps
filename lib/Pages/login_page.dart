@@ -50,7 +50,9 @@ class _LoginPageState extends State<LoginPage> {
 
       print('sign in');
 
-      _googleSignIn.signOut();
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.signOut();
+      }
 
       GoogleSignInAccount? account = await _googleSignIn.signIn();
 
@@ -83,8 +85,10 @@ class _LoginPageState extends State<LoginPage> {
         warning = error.toString();
       });
 
-      _googleSignIn.signOut();
-      box.remove("api_key");
+      if (await _googleSignIn.isSignedIn()) {
+        box.remove("api_key");
+        await _googleSignIn.signOut();
+      }
     }
   }
 
@@ -94,8 +98,15 @@ class _LoginPageState extends State<LoginPage> {
       dynamic data = jsonDecode(res.body);
 
       if (data != null) {
-        Get.find<UserController>().setUser(User.fromJson(data));
-        Get.offAndToNamed("/");
+        final user = User.fromJson(data);
+        Get.find<UserController>().setUser(user);
+
+        if (user.studyprogram == null &&
+            await box.read("finish-onboard") == null) {
+          Get.offNamed('/onboard');
+        } else {
+          Get.offAndToNamed("/");
+        }
       } else {
         Get.find<UserController>().clearUser();
 
@@ -103,8 +114,10 @@ class _LoginPageState extends State<LoginPage> {
           warning = 'Gagal mendapatkan data user';
         });
 
-        _googleSignIn.signOut();
-        box.remove("api_key");
+        if (await _googleSignIn.isSignedIn()) {
+          box.remove("api_key");
+          await _googleSignIn.signOut();
+        }
       }
     } catch (e) {
       Get.find<UserController>().clearUser();
@@ -112,9 +125,10 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         warning = 'Gagal mendapatkan data user';
       });
-
-      await _googleSignIn.signOut();
-      await box.remove("api_key");
+      if (await _googleSignIn.isSignedIn()) {
+        box.remove("api_key");
+        await _googleSignIn.signOut();
+      }
     }
   }
 

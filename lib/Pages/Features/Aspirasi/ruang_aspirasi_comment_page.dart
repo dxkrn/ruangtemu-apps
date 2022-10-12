@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ruang_temu_apps/Models/aspirasi_comment.dart';
+import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
@@ -133,6 +134,15 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
     double deviceWidth = MediaQuery.of(context).size.width;
     bool isCheckedUjaran = false;
     bool isCheckedSpam = false;
+
+    final TextEditingController _commentController = TextEditingController();
+    final TextEditingController _reportTitleController =
+        TextEditingController();
+    final TextEditingController _reportContentController =
+        TextEditingController();
+
+    final userController = Get.find<UserController>();
+
     return Scaffold(
       appBar: FeatureAppbar(
         title: 'Ruang Aspirasi',
@@ -149,41 +159,43 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                     widget: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/img_male_avatar.png',
+                        Obx(() => Row(
+                              children: [
+                                CircleAvatar(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            userController.user.value.avatar ??
+                                                ''),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              width: 180.w,
-                              height: 35.h,
-                              child: Text(
-                                "Eka Permana",
-                                style: heading1MediumTextStyle.copyWith(
-                                  color: blueColor,
-                                  overflow: TextOverflow.ellipsis,
+                                SizedBox(
+                                  width: 10.w,
                                 ),
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
-                        ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  width: 180.w,
+                                  height: 35.h,
+                                  child: Text(
+                                    userController.user.value.name,
+                                    style: heading1MediumTextStyle.copyWith(
+                                      color: blueColor,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
+                            )),
                         SizedBox(
                           height: 110.h,
                           child: TextField(
+                            controller: _commentController,
                             style: heading1MediumTextStyle.copyWith(
                               color: blueColor,
                             ),
@@ -218,7 +230,68 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                               text: "Kirim",
                               buttonColor: blueColor,
                               textColor: whiteColor,
-                              onPressed: () {},
+                              onPressed: () {
+                                // warn if empty
+
+                                if (_commentController.text.isEmpty) {
+                                  Get.snackbar(
+                                    'Komentar tidak boleh kosong',
+                                    '',
+                                    backgroundColor: whiteColor,
+                                    colorText: Colors.black,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    margin: const EdgeInsets.all(10),
+                                    borderRadius: 10,
+                                    icon: const Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                    ),
+                                  );
+                                } else {
+                                  // send comment
+                                  setState(() {
+                                    _isFirstLoadRunning = true;
+                                  });
+                                  httpClient.post(
+                                    "$baseAPIUrl/aspirations/${widget.aspirationId}/comments",
+                                    {
+                                      'comment': _commentController.text,
+                                    },
+                                  ).then((value) {
+                                    if (value.statusCode == 200) {
+                                      Get.back();
+                                      Get.snackbar(
+                                        'Komentar berhasil dikirim',
+                                        '',
+                                        backgroundColor: whiteColor,
+                                        colorText: Colors.black,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        margin: const EdgeInsets.all(10),
+                                        borderRadius: 10,
+                                        icon: const Icon(
+                                          Icons.check_circle,
+                                          color: Colors.green,
+                                        ),
+                                      );
+                                      _firstLoad();
+                                    } else {
+                                      Get.snackbar(
+                                        'Gagal mengirim komentar',
+                                        value.toString(),
+                                        backgroundColor: whiteColor,
+                                        colorText: Colors.black,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        margin: const EdgeInsets.all(10),
+                                        borderRadius: 10,
+                                        icon: const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  });
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -297,7 +370,7 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                                       widget: Column(
                                         children: [
                                           Text(
-                                            "Laporkan Komentar",
+                                            "Laporkan Aspirasi",
                                             style: heading1MediumTextStyle
                                                 .copyWith(
                                               color: blueColor,
@@ -306,101 +379,60 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                                           SizedBox(
                                             height: 20.h,
                                           ),
-                                          SizedBox(
-                                            height: 20.h,
-                                            // color: yellowColor,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Spam',
-                                                  style: heading2TextStyle
-                                                      .copyWith(
-                                                    color: blueColor,
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    // setState(() {
-                                                    //   print('Tapped');
-                                                    //   isCheckedKampus =
-                                                    //       !isCheckedKampus;
-                                                    //   print(
-                                                    //       isCheckedKampus);
-                                                    // });
-                                                  },
-                                                  child: Container(
-                                                    width: 15.h,
-                                                    height: 15.h,
-                                                    decoration: isCheckedSpam
-                                                        ? const BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image: AssetImage(
-                                                                  'assets/icons/icon_check_blue.png'),
-                                                            ),
-                                                          )
-                                                        : const BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image: AssetImage(
-                                                                  'assets/icons/icon_check_blue_inactive.png'),
-                                                            ),
-                                                          ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
+                                          const Divider(
+                                            color: Colors.blue,
+                                            thickness: 1,
                                           ),
                                           SizedBox(
                                             height: 20.h,
-                                            // color: yellowColor,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Ujaran kebencian',
-                                                  style: heading2TextStyle
-                                                      .copyWith(
-                                                    color: blueColor,
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    // setState(() {
-                                                    //   isCheckedNasional =
-                                                    //       !isCheckedNasional;
-                                                    //   print(
-                                                    //       isCheckedNasional);
-                                                    // });
-                                                  },
-                                                  child: SizedBox(
-                                                    width: 15.h,
-                                                    height: 15.h,
-                                                    child: isCheckedUjaran
-                                                        ? const Image(
-                                                            image: AssetImage(
-                                                                'assets/icons/icon_check_blue.png'),
-                                                          )
-                                                        : const Image(
-                                                            image: AssetImage(
-                                                                'assets/icons/icon_check_blue_inactive.png'),
-                                                          ),
-                                                  ),
-                                                ),
-                                              ],
+                                          ),
+                                          TextField(
+                                            controller: _reportTitleController,
+                                            style: heading1MediumTextStyle
+                                                .copyWith(
+                                              color: blueColor,
                                             ),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintStyle: heading1MediumTextStyle
+                                                  .copyWith(
+                                                color:
+                                                    blueColor.withOpacity(0.5),
+                                              ),
+                                              hintText:
+                                                  'Ketik Judul Laporan Anda..',
+                                            ),
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            maxLines: 2,
+                                          ),
+                                          const Divider(
+                                            color: Colors.blue,
+                                            thickness: 1,
+                                          ),
+                                          SizedBox(
+                                            height: 20.h,
+                                          ),
+                                          TextField(
+                                            controller:
+                                                _reportContentController,
+                                            style: heading1MediumTextStyle
+                                                .copyWith(
+                                              color: blueColor,
+                                            ),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintStyle: heading1MediumTextStyle
+                                                  .copyWith(
+                                                color:
+                                                    blueColor.withOpacity(0.5),
+                                              ),
+                                              hintText:
+                                                  'Ketik Deskripsi Laporan Anda..',
+                                            ),
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            maxLines: 2,
                                           ),
                                           SizedBox(
                                             height: 20.h,
@@ -426,13 +458,93 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                                                 text: "Laporkan",
                                                 buttonColor: blueColor,
                                                 textColor: whiteColor,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  if (_reportTitleController
+                                                      .value.text.isEmpty) {
+                                                    Get.snackbar(
+                                                      'Gagal mengirim laporan',
+                                                      'Judul laporan tidak boleh kosong',
+                                                      backgroundColor:
+                                                          whiteColor,
+                                                      colorText: Colors.black,
+                                                      snackPosition:
+                                                          SnackPosition.BOTTOM,
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      borderRadius: 10,
+                                                      icon: const Icon(
+                                                        Icons.error,
+                                                        color: Colors.red,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    httpClient.post(
+                                                        "$baseAPIUrl/aspirations/report",
+                                                        {
+                                                          "id": widget
+                                                              .aspirationId
+                                                              .toString(),
+                                                          "name":
+                                                              _reportTitleController
+                                                                  .value.text,
+                                                          "description":
+                                                              _reportContentController
+                                                                  .value.text,
+                                                        }).then((value) {
+                                                      if (value.statusCode ==
+                                                          200) {
+                                                        Get.back();
+                                                        Get.snackbar(
+                                                          'Berhasil mengirim laporan',
+                                                          'Laporan anda akan segera kami proses',
+                                                          backgroundColor:
+                                                              whiteColor,
+                                                          colorText:
+                                                              Colors.black,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .BOTTOM,
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          borderRadius: 10,
+                                                          icon: const Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        Get.back();
+                                                        Get.snackbar(
+                                                          'Gagal mengirim laporan',
+                                                          value.body.toString(),
+                                                          backgroundColor:
+                                                              whiteColor,
+                                                          colorText:
+                                                              Colors.black,
+                                                          snackPosition:
+                                                              SnackPosition
+                                                                  .BOTTOM,
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          borderRadius: 10,
+                                                          icon: const Icon(
+                                                            Icons.error,
+                                                            color: Colors.red,
+                                                          ),
+                                                        );
+                                                      }
+                                                    });
+                                                  }
+                                                },
                                               ),
                                             ],
                                           )
                                         ],
                                       ),
-                                      height: 170.h,
+                                      height: 300.h,
                                     );
                                   });
                             });
@@ -447,12 +559,11 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Container(
+                    SizedBox(
                       // color: blueColor,
                       width: 350.w,
                       child: Text(
                         widget.content,
-                        // "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         style: heading2TextStyle.copyWith(
                           color: blueColor,
                           overflow: TextOverflow.ellipsis,
@@ -479,7 +590,7 @@ class _RuangAspirasiCommentPageState extends State<RuangAspirasiCommentPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${widget.aspirasiCommentCount} Komentar',
+                      '${widget.aspirasiCommentCount > _posts.length ? widget.aspirasiCommentCount : _posts.length} Komentar',
                       style: heading3TextStyle.copyWith(
                         color: blueColor,
                       ),

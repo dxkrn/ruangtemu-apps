@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../themes.dart';
@@ -20,9 +22,6 @@ class _OnboardPageState extends State<OnboardPage> {
         children: [
           LiquidSwipe(
             liquidController: controller,
-            onPageChangeCallback: (index) {
-              setState(() {});
-            },
             pages: [
               SinglePage(
                 text:
@@ -117,7 +116,9 @@ class SinglePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                onPressed: (() {}),
+                onPressed: (() {
+                  Get.offNamed("/");
+                }),
                 child: Text(
                   'Skip',
                   style: heading1MediumTextStyle.copyWith(
@@ -142,6 +143,11 @@ class SinglePage extends StatelessWidget {
               TextButton(
                 onPressed: (() {
                   controller.animateToPage(page: controller.currentPage + 1);
+                  final box = GetStorage();
+                  if (controller.currentPage == 2) {
+                    Get.offNamed("/");
+                    box.write("finish-onboard", "true");
+                  }
                 }),
                 child: Text(
                   'Next',
