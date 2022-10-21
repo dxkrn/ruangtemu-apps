@@ -8,6 +8,7 @@ import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_detail.dart'
 import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak_detail.dart';
+import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak_soon.dart';
 import 'package:ruang_temu_apps/Pages/accounts_page.dart';
 import 'package:ruang_temu_apps/Pages/login_page.dart';
 import 'package:ruang_temu_apps/Pages/settings_page.dart';
@@ -178,6 +179,14 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/lapakDetail',
             page: () => const RuangLapakDetail(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
+          ),
+          GetPage(
+            name: '/lapakSoon',
+            page: () => const RuangLapakSoon(),
             transition: Transition.fade,
             transitionDuration: const Duration(
               milliseconds: 500,

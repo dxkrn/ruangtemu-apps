@@ -183,7 +183,8 @@ class _HomePageState extends State<HomePage> {
                               imgSrc: 'assets/images/img_ill_edukasi.png',
                             ),
                             FiturUnggulanCard(
-                              id: '/lapak',
+                              // id: '/lapak',
+                              id: '/lapakSoon',
                               title: 'Ruang\nLapak',
                               imgSrc: 'assets/images/img_ill_lapak.png',
                             ),
