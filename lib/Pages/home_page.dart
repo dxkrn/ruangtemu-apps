@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ruang_temu_apps/Models/aspirasi.dart';
 import 'package:ruang_temu_apps/Models/news.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
+import 'package:ruang_temu_apps/Widgets/aspirasi_card.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/http_client.dart';
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   String mainCategory = 'main-category';
 
   List<News> _news = [];
+  List<Aspirasi> _aspirasi = [];
   void _firstLoad() async {
     try {
       httpClient.get("$baseAPIUrl/").then((value) async {
@@ -47,6 +50,32 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           mainCategory = _mainCategory;
           _news = news;
+        });
+      });
+      // ignore: empty_catches
+    } catch (e) {}
+
+    try {
+      httpClient.get("$baseAPIUrl/").then((value) async {
+        List<Aspirasi> aspirasi = [];
+        final response =
+            await httpClient.get("$baseAPIUrl/aspirations?page=1&limit=5");
+
+        if (response.statusCode == 200) {
+          // print(response.body);
+          setState(() {
+            Map<String, dynamic> m = json.decode(response.body);
+
+            Iterable l = m['data'];
+            aspirasi.addAll(List<Aspirasi>.from(
+                l.map((model) => Aspirasi.fromJson(model))));
+          });
+        } else {
+          throw Exception('Failed to load news on first');
+        }
+        setState(() {
+          _aspirasi = aspirasi;
+          print(_aspirasi);
         });
       });
       // ignore: empty_catches
@@ -266,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                   height: 10.h,
                 ),
 
-                //NOTE:Belanja yuukk
+                //Aspirasi
                 Column(
                   children: [
                     Padding(
@@ -277,17 +306,24 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Belanja Yukk',
+                            'Aspirasi',
                             style: heading2TextStyle.copyWith(
                               color: blueColor,
                             ),
                           ),
                           Row(
                             children: [
-                              Text(
-                                'Lihat Semua',
-                                style: heading3TextStyle.copyWith(
-                                  color: blueColor,
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(
+                                    '/aspirasiPage',
+                                  );
+                                },
+                                child: Text(
+                                  'Lihat Semua',
+                                  style: heading3TextStyle.copyWith(
+                                    color: blueColor,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -301,56 +337,117 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        childAspectRatio: 8 / 5,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
+                    SizedBox(
+                      height: 180.h,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
                         children: [
-                          ProductCard(
-                            title: 'Jus Sehat',
-                            subtitle: 'Toko Jus',
-                            imgSrc: 'assets/images/img_produk_1.png',
+                          const SizedBox(
+                            width: 20,
                           ),
-                          ProductCard(
-                            title: 'Kopi',
-                            subtitle: 'Toko Kopi',
-                            imgSrc: 'assets/images/img_produk_2.png',
-                          ),
-                          ProductCard(
-                            title: 'Daging Domba',
-                            subtitle: 'Jagal Domba',
-                            imgSrc: 'assets/images/img_produk_3.png',
-                          ),
-                          ProductCard(
-                            title: 'Mobil',
-                            subtitle: 'Showroom',
-                            imgSrc: 'assets/images/img_produk_4.png',
-                          ),
-                          ProductCard(
-                            title: 'Pot Hias',
-                            subtitle: 'Petani Bunga',
-                            imgSrc: 'assets/images/img_produk_5.png',
-                          ),
-                          ProductCard(
-                            title: 'Pizza',
-                            subtitle: 'Toko Italy',
-                            imgSrc: 'assets/images/img_produk_6.png',
+                          ..._aspirasi.map(
+                            (e) => Container(
+                              margin: EdgeInsets.only(right: 24.w),
+                              child: AspirasiCard(
+                                id: e.id,
+                                imgSrc: e.user['avatar'],
+                                name: e.user['name'],
+                                content: e.message,
+                                commentCount: e.aspirationCommentsCount,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 100.h,
-                    ),
                   ],
                 ),
+
+                //NOTE:Belanja yuukk
+                // Column(
+                //   children: [
+                //     Padding(
+                //       padding: const EdgeInsets.only(
+                //         left: 20,
+                //       ),
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: [
+                //           Text(
+                //             'Belanja Yukk',
+                //             style: heading2TextStyle.copyWith(
+                //               color: blueColor,
+                //             ),
+                //           ),
+                //           Row(
+                //             children: [
+                //               Text(
+                //                 'Lihat Semua',
+                //                 style: heading3TextStyle.copyWith(
+                //                   color: blueColor,
+                //                 ),
+                //               ),
+                //               const SizedBox(
+                //                 width: 20,
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       height: 10,
+                //     ),
+                //     Container(
+                //       padding: const EdgeInsets.symmetric(
+                //         horizontal: 20,
+                //       ),
+                //       child: GridView.count(
+                //         crossAxisCount: 2,
+                //         physics: const NeverScrollableScrollPhysics(),
+                //         shrinkWrap: true,
+                //         childAspectRatio: 8 / 5,
+                //         crossAxisSpacing: 20,
+                //         mainAxisSpacing: 20,
+                //         children: [
+                //           ProductCard(
+                //             title: 'Jus Sehat',
+                //             subtitle: 'Toko Jus',
+                //             imgSrc: 'assets/images/img_produk_1.png',
+                //           ),
+                //           ProductCard(
+                //             title: 'Kopi',
+                //             subtitle: 'Toko Kopi',
+                //             imgSrc: 'assets/images/img_produk_2.png',
+                //           ),
+                //           ProductCard(
+                //             title: 'Daging Domba',
+                //             subtitle: 'Jagal Domba',
+                //             imgSrc: 'assets/images/img_produk_3.png',
+                //           ),
+                //           ProductCard(
+                //             title: 'Mobil',
+                //             subtitle: 'Showroom',
+                //             imgSrc: 'assets/images/img_produk_4.png',
+                //           ),
+                //           ProductCard(
+                //             title: 'Pot Hias',
+                //             subtitle: 'Petani Bunga',
+                //             imgSrc: 'assets/images/img_produk_5.png',
+                //           ),
+                //           ProductCard(
+                //             title: 'Pizza',
+                //             subtitle: 'Toko Italy',
+                //             imgSrc: 'assets/images/img_produk_6.png',
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       height: 100.h,
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
