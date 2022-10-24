@@ -204,7 +204,9 @@ class _HomePageState extends State<HomePage> {
                               imgSrc: 'assets/images/img_ill_aspirasi.png',
                             ),
                             FiturUnggulanCard(
-                              id: '/info',
+                              // id: '/info',
+                              // id: '/infoGallery',
+                              id: '/infoArticle',
                               title: 'Ruang\nInfo',
                               imgSrc: 'assets/images/img_ill_info.png',
                             ),

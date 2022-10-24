@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi_detail.dart';
+import 'package:ruang_temu_apps/Pages/Features/Info/artikel/article_page.dart';
+import 'package:ruang_temu_apps/Pages/Features/Info/artikel/gallery_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_detail.dart';
 import 'package:ruang_temu_apps/Pages/Features/Info/info_internship_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Lapak/ruang_lapak.dart';
@@ -103,6 +105,24 @@ class MyApp extends StatelessWidget {
           ),
 
           //Info
+          GetPage(
+            name: '/infoArticle',
+            page: () => const ArticlePage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 800,
+            ),
+          ),
+
+          GetPage(
+            name: '/infoGallery',
+            page: () => const GalleryPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 800,
+            ),
+          ),
+
           GetPage(
             name: '/info',
             page: () => const RuangInfo(),
