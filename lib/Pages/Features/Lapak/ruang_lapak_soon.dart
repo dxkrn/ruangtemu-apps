@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/navbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/themes.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class RuangLapakSoon extends StatelessWidget {
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      bottomNavigationBar: Navbar(page: 2),
       appBar: FeatureAppbar(
         title: 'Ruang Lapak',
         iconSrc: 'assets/icons/icon_troli.png',
@@ -52,16 +54,16 @@ class RuangLapakSoon extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            RoundedButton(
-              width: 150.w,
-              height: 50,
-              text: "Kembali",
-              buttonColor: blueColor,
-              textColor: whiteColor,
-              onPressed: () {
-                Get.back();
-              },
-            )
+            // RoundedButton(
+            //   width: 150.w,
+            //   height: 50,
+            //   text: "Kembali",
+            //   buttonColor: blueColor,
+            //   textColor: whiteColor,
+            //   onPressed: () {
+            //     Get.back();
+            //   },
+            // )
           ],
         ),
       ),

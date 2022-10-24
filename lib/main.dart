@@ -51,6 +51,11 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/',
             page: () => const HomePage(),
+            transition: Transition.fade,
+            // transition: Transition.noTransition,
+            transitionDuration: const Duration(
+              milliseconds: 800,
+            ),
           ),
           GetPage(
             name: '/login',
@@ -77,7 +82,7 @@ class MyApp extends StatelessWidget {
             page: () => const RuangAspirasiForm(),
             transition: Transition.fade,
             transitionDuration: const Duration(
-              milliseconds: 500,
+              milliseconds: 800,
             ),
           ),
           GetPage(
@@ -103,7 +108,7 @@ class MyApp extends StatelessWidget {
             page: () => const RuangInfo(),
             transition: Transition.fade,
             transitionDuration: const Duration(
-              milliseconds: 500,
+              milliseconds: 800,
             ),
           ),
           GetPage(
@@ -173,7 +178,7 @@ class MyApp extends StatelessWidget {
             page: () => const RuangLapak(),
             transition: Transition.fade,
             transitionDuration: const Duration(
-              milliseconds: 500,
+              milliseconds: 800,
             ),
           ),
           GetPage(
@@ -189,7 +194,7 @@ class MyApp extends StatelessWidget {
             page: () => const RuangLapakSoon(),
             transition: Transition.fade,
             transitionDuration: const Duration(
-              milliseconds: 500,
+              milliseconds: 800,
             ),
           ),
 
@@ -199,7 +204,7 @@ class MyApp extends StatelessWidget {
             page: () => const SettingsPage(),
             transition: Transition.fade,
             transitionDuration: const Duration(
-              milliseconds: 500,
+              milliseconds: 800,
             ),
           ),
           GetPage(

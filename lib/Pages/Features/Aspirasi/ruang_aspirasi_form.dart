@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/navbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/env.dart';
@@ -62,22 +63,33 @@ class _RuangAspirasiFormState extends State<RuangAspirasiForm> {
     // double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: Navbar(page: 1),
       appBar: FeatureAppbar(
         title: 'Ruang Aspirasi',
         iconSrc: 'assets/icons/icon_mail.png',
       ),
       body: Stack(
         children: [
-          Hero(
-            tag: 'assets/images/img_ill_aspirasi.png',
-            child: Container(
-              height: 200.h,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/img_ill_aspirasi.png'),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Hero(
+                tag: 'assets/images/img_ill_aspirasi.png',
+                child: Container(
+                  height: 200.h,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/img_ill_aspirasi.png'),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Container(
+                height: 200.h,
+                color: blueColor,
+              ),
+            ],
           ),
           ScrollConfiguration(
             behavior: CustomScroll(),

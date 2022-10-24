@@ -4,6 +4,7 @@ import 'package:ruang_temu_apps/Models/informations.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:get/get.dart';
+import 'package:ruang_temu_apps/Widgets/navbar.dart';
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
@@ -46,6 +47,8 @@ class _RuangInfoState extends State<RuangInfo> {
     // double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: Navbar(page: 3),
       appBar: FeatureAppbar(
         title: 'Ruang Info',
         iconSrc: 'assets/icons/icon_info.png',

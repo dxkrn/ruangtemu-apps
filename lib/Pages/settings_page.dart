@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/dialog_box.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/navbar.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/Widgets/rounded_button_border.dart';
 import 'package:ruang_temu_apps/themes.dart';
@@ -23,6 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
     double deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      bottomNavigationBar: Navbar(page: 4),
       appBar: FeatureAppbar(
         title: 'Settings',
         iconSrc: 'assets/icons/icon_settings.png',

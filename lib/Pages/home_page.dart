@@ -11,6 +11,7 @@ import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:ruang_temu_apps/Widgets/aspirasi_card.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
+import 'package:ruang_temu_apps/Widgets/navbar.dart';
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
@@ -96,6 +97,7 @@ class _HomePageState extends State<HomePage> {
     // double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       extendBody: true,
+      bottomNavigationBar: Navbar(page: 0),
       appBar: AppBar(
         backgroundColor: whiteColor,
         elevation: 0,

@@ -7,6 +7,7 @@ import 'package:ruang_temu_apps/Pages/Features/Aspirasi/ruang_aspirasi_comment_p
 import 'package:ruang_temu_apps/Widgets/aspirasi_card.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
+import 'package:ruang_temu_apps/Widgets/navbar.dart';
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
@@ -117,6 +118,7 @@ class _RuangAspirasiPageState extends State<RuangAspirasiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Navbar(page: 1),
       appBar: FeatureAppbar(
         title: 'Ruang Aspirasi',
         iconSrc: 'assets/icons/icon_mail.png',
