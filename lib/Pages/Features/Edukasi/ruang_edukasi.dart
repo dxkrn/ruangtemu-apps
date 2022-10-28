@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ruang_temu_apps/Models/news.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi_detail.dart';
+import 'package:ruang_temu_apps/Pages/Features/Info/artikel/gallery_page.dart';
 import 'package:ruang_temu_apps/Widgets/custom_scroll.dart';
 import 'package:ruang_temu_apps/Widgets/feature_appbar.dart';
 import 'package:get/get.dart';
@@ -31,9 +32,6 @@ class RuangEdukasi extends StatefulWidget {
 }
 
 class _RuangEdukasiState extends State<RuangEdukasi> {
-  bool isCheckedKampus = true;
-  bool isCheckedNasional = true;
-
   String selectedCategory = 'Semua';
   List<String> availableCategories = [];
   List<String> selectedCategories = [];
@@ -52,7 +50,7 @@ class _RuangEdukasiState extends State<RuangEdukasi> {
       _isFirstLoadRunning = true;
     });
     final res = await httpClient.get(
-        "$baseAPIUrl/news?page=$_page&limit=$_limit&category=$selectedCategory&search=$search");
+        "$baseAPIUrl/news?type=EDUCATION&page=$_page&limit=$_limit&category=$selectedCategory&search=$search");
 
     if (res.statusCode == 200) {
       setState(() {
@@ -80,7 +78,7 @@ class _RuangEdukasiState extends State<RuangEdukasi> {
         _page++; // Increase _page by 1
       });
       final res = await httpClient.get(
-          "$baseAPIUrl/news?page=$_page&limit=$_limit&category=$selectedCategory&search=$search");
+          "$baseAPIUrl/news?type=EDUCATION&page=$_page&limit=$_limit&category=$selectedCategory&search=$search");
 
       if (res.statusCode == 200) {
         Map<String, dynamic> m = json.decode(res.body);
@@ -465,6 +463,7 @@ class _RuangEdukasiState extends State<RuangEdukasi> {
                       itemBuilder: ((_, index) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: EdukasiCard(
+                                contentType: _news[index].contentType,
                                 imageSrc: _news[index].image,
                                 title: _news[index].title,
                                 content: _news[index].content,
@@ -507,12 +506,14 @@ class EdukasiCard extends StatelessWidget {
     required this.imageSrc,
     required this.title,
     required this.content,
+    required this.contentType,
     this.type = EdukasiCardType.main,
   }) : super(key: key);
 
   String imageSrc;
   String title;
   String content;
+  String contentType;
 
   EdukasiCardType type = EdukasiCardType.main;
 
@@ -520,12 +521,26 @@ class EdukasiCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        final RuangEdukasiDetailArgs args = RuangEdukasiDetailArgs(
-          title: title,
-          content: content,
-          image: imageSrc,
-        );
-        Get.toNamed('/edukasiDetail', arguments: args);
+        if (contentType == 'ARTICLE') {
+          final RuangEdukasiDetailArgs args = RuangEdukasiDetailArgs(
+            title: title,
+            content: content,
+            image: imageSrc,
+          );
+          Get.toNamed('/edukasiDetail', arguments: args);
+        } else {
+          List<dynamic> urls = jsonDecode(content);
+          List<String> urlList = [];
+          for (var url in urls) {
+            urlList.add(url.toString());
+          }
+          final GalleryPageArgs args = GalleryPageArgs(
+            title: title,
+            images: urlList,
+            contentType: contentType,
+          );
+          Get.toNamed('/gallery_view', arguments: args);
+        }
       },
       child: type == EdukasiCardType.main
           ? Row(

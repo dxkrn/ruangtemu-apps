@@ -34,7 +34,7 @@ class Callcenter {
   factory Callcenter.fromJson(Map<String, dynamic> json) => Callcenter(
         id: json["id"],
         name: json["name"],
-        description: json["description"],
+        description: json["description"] ?? '',
         url: json["url"],
         logoUrl: json["logo_url"],
         clickCount: json["click_count"],

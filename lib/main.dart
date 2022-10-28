@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ruang_temu_apps/Pages/Features/Articles/html_page.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi.dart';
 import 'package:ruang_temu_apps/Pages/Features/Edukasi/ruang_edukasi_detail.dart';
 import 'package:ruang_temu_apps/Pages/Features/Info/artikel/article_page.dart';
@@ -107,7 +108,7 @@ class MyApp extends StatelessWidget {
           //Info
           GetPage(
             name: '/infoArticle',
-            page: () => const ArticlePage(),
+            page: () => const RuangInformasi(),
             transition: Transition.fade,
             transitionDuration: const Duration(
               milliseconds: 800,
@@ -115,7 +116,7 @@ class MyApp extends StatelessWidget {
           ),
 
           GetPage(
-            name: '/infoGallery',
+            name: '/gallery_view',
             page: () => const GalleryPage(),
             transition: Transition.fade,
             transitionDuration: const Duration(
@@ -125,7 +126,7 @@ class MyApp extends StatelessWidget {
 
           GetPage(
             name: '/info',
-            page: () => const RuangInfo(),
+            page: () => const RuangInformasi(),
             transition: Transition.fade,
             transitionDuration: const Duration(
               milliseconds: 800,
@@ -230,6 +231,14 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/accountPage',
             page: () => const AccountsPage(),
+            transition: Transition.fade,
+            transitionDuration: const Duration(
+              milliseconds: 500,
+            ),
+          ),
+          GetPage(
+            name: '/test-article',
+            page: () => const HTMLPage(),
             transition: Transition.fade,
             transitionDuration: const Duration(
               milliseconds: 500,

@@ -9,13 +9,18 @@ import 'package:ruang_temu_apps/Widgets/rounded_button.dart';
 import 'package:ruang_temu_apps/env.dart';
 import 'package:ruang_temu_apps/http_client.dart';
 import 'package:ruang_temu_apps/themes.dart';
-import 'package:ruang_temu_apps/StateController/user_controller.dart';
 import 'package:get/get.dart';
 
-class AccountsPage extends StatelessWidget {
+class AccountsPage extends StatefulWidget {
   const AccountsPage({super.key});
 
   @override
+  State<AccountsPage> createState() => _AccountsPageState();
+}
+
+class _AccountsPageState extends State<AccountsPage> {
+  @override
+  int? studyProgramId;
   Widget build(BuildContext context) {
     final UserController userController = Get.find();
 
@@ -125,7 +130,7 @@ class AccountsPage extends StatelessWidget {
                     SizedBox(
                       width: 90.w,
                       child: Text(
-                        'Prodi',
+                        'Prodi / Fakultas ${userController.user.value.studyprogram}',
                         style: heading2TextStyle.copyWith(
                           color: blueColor,
                         ),
@@ -151,7 +156,12 @@ class AccountsPage extends StatelessWidget {
                             throw Exception("error fetching data");
                           }
                         },
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            // big int to int
+                            studyProgramId = value!.id.toInt();
+                          });
+                        },
                       ),
                     ),
                   ],
@@ -180,9 +190,13 @@ class AccountsPage extends StatelessWidget {
                       width: 230.w,
                       // color: blueColor,
                       child: TextField(
+                        // only number
+                        keyboardType: TextInputType.number,
                         style: heading2TextStyle.copyWith(
                           color: blueColor,
                         ),
+                        onChanged: (value) => userController
+                            .user.value.generationYear = int.parse(value),
                         decoration: InputDecoration(
                           hintStyle: heading1MediumTextStyle.copyWith(
                             color: blueColor.withAlpha(90),
@@ -205,7 +219,23 @@ class AccountsPage extends StatelessWidget {
               text: 'Simpan',
               buttonColor: blueColor,
               textColor: whiteColor,
-              onPressed: () {},
+              onPressed: () {
+                httpClient.post("$baseAPIUrl/users", {
+                  "name": userController.user.value.name,
+                  "generation_year":
+                      userController.user.value.generationYear.toString(),
+                  "studyprogram_id": studyProgramId.toString(),
+                });
+
+                Get.offAllNamed('/home');
+                Get.snackbar(
+                  'Berhasil',
+                  'Data berhasil disimpan',
+                  backgroundColor: whiteColor,
+                  colorText: blueColor,
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              },
             ),
           ],
         ),

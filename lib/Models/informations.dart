@@ -12,6 +12,7 @@ class Information {
       required this.pingStatus,
       required this.postPassword,
       required this.postName,
+      this.thumbnail,
       required this.toPing,
       required this.pinged,
       required this.postModified,
@@ -32,6 +33,7 @@ class Information {
   String postContent;
   String postTitle;
   String postExcerpt;
+  String? thumbnail;
   String postStatus;
   String commentStatus;
   String pingStatus;
@@ -76,6 +78,7 @@ class Information {
       postMimeType: json["post_mime_type"],
       commentCount: json["comment_count"],
       canonicalUrl: json["canonical_url"],
+      thumbnail: json["thumbnail"],
     );
   }
 
@@ -105,6 +108,7 @@ class Information {
       "post_mime_type": postMimeType,
       "comment_count": commentCount,
       "canonical_url": canonicalUrl,
+      "thumbnail_url": thumbnail,
     };
   }
 }

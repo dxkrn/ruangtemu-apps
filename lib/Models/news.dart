@@ -6,8 +6,10 @@ class News {
     required this.image,
     required this.category,
     required this.content,
+    required this.contentType,
     required this.clickCount,
     required this.isActive,
+    required this.type,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -16,7 +18,9 @@ class News {
   String title;
   String slug;
   String image;
+  String type;
   String category;
+  String contentType;
   String content;
   int clickCount;
   int isActive;
@@ -30,6 +34,8 @@ class News {
         image: json["image"],
         category: json["category"],
         content: json["content"],
+        type: json["type"],
+        contentType: json["content_type"],
         clickCount: json["click_count"],
         isActive: json["is_active"],
         createdAt: DateTime.parse(json["created_at"]),
@@ -43,6 +49,8 @@ class News {
         "image": image,
         "category": category,
         "content": content,
+        "type": type,
+        "contentType": contentType,
         "click_count": clickCount,
         "is_active": isActive,
         "created_at": createdAt.toIso8601String(),

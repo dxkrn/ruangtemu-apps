@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> {
         List<News> news = [];
         final res = await httpClient
             .get("$baseAPIUrl/news?page=1&limit=5t&category=$_mainCategory");
-
         if (res.statusCode == 200) {
           setState(() {
             Map<String, dynamic> m = json.decode(res.body);
@@ -205,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             FiturUnggulanCard(
                               // id: '/info',
-                              // id: '/infoGallery',
+                              // id: '/gallery_view',
                               id: '/infoArticle',
                               title: 'Ruang\nInfo',
                               imgSrc: 'assets/images/img_ill_info.png',
@@ -287,6 +286,7 @@ class _HomePageState extends State<HomePage> {
                             width: 20,
                           ),
                           ..._news.map((e) => EdukasiCard(
+                              contentType: e.contentType,
                               content: e.content,
                               imageSrc: e.image,
                               title: e.title)),
