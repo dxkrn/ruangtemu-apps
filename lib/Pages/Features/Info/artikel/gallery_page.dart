@@ -44,17 +44,11 @@ class _GalleryPageState extends State<GalleryPage> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.w,
-                    mainAxisSpacing: 10.w,
-                    childAspectRatio: 3 / 6,
-                  ),
-                  itemCount: args.images.length,
-                  itemBuilder: ((context, index) {
-                    return args.contentType == 'ATTACHMENT'
-                        ? GestureDetector(
+                child: args.contentType == 'ATTACHMENT'
+                    ? ListView.builder(
+                        itemCount: args.images.length,
+                        itemBuilder: ((context, index) {
+                          return GestureDetector(
                             onTap: () {
                               AndroidIntent intent = AndroidIntent(
                                 action: 'action_view',
@@ -64,29 +58,38 @@ class _GalleryPageState extends State<GalleryPage> {
 
                               intent.launch();
                             },
-
-                            // text card for attachment using file name
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 1,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'File : ${args.images[index].split('/').last}',
+                            // list view for attachment
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(10.w),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.attach_file,
+                                      color: blueColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Text(
+                                      args.images[index].split('/').last,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          )
-                        : GestureDetector(
+                          );
+                        }))
+                    : GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.w,
+                          mainAxisSpacing: 10.w,
+                          childAspectRatio: 3 / 6,
+                        ),
+                        itemCount: args.images.length,
+                        itemBuilder: ((context, index) {
+                          return GestureDetector(
                             onTap: () {
                               // print('tapped : ${_listImage[index]}');
                               showImageViewer(
@@ -106,8 +109,8 @@ class _GalleryPageState extends State<GalleryPage> {
                               ),
                             ),
                           );
-                  }),
-                ),
+                        }),
+                      ),
               ),
             ),
           ],

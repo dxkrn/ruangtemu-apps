@@ -125,6 +125,10 @@ class _HalounyPageState extends State<HalounyPage> {
                                   ?.map((e) => CallCenterCard(
                                         imgSrc: e.logoUrl ??
                                             'assets/logos/logo_advokesma.png',
+
+                                        imgType: e.logoUrl != null
+                                            ? ImageType.network
+                                            : ImageType.asset,
                                         title: e.name,
                                         subtitle: e.description,
                                         // url: e.url,
@@ -180,6 +184,8 @@ class _HalounyPageState extends State<HalounyPage> {
   }
 }
 
+enum ImageType { network, asset }
+
 class CallCenterCard extends StatefulWidget {
   CallCenterCard({
     Key? key,
@@ -187,11 +193,13 @@ class CallCenterCard extends StatefulWidget {
     required this.title,
     required this.subtitle,
     required this.url,
+    this.imgType = ImageType.asset,
   }) : super(key: key);
   String imgSrc;
   String title;
   String subtitle;
   String url;
+  ImageType imgType;
 
   @override
   State<CallCenterCard> createState() => _CallCenterCardState();
@@ -236,9 +244,9 @@ class _CallCenterCardState extends State<CallCenterCard> {
                 children: [
                   SizedBox(
                     width: 70.w,
-                    child: Image(
-                      image: AssetImage(widget.imgSrc),
-                    ),
+                    child: widget.imgType == ImageType.network
+                        ? Image.network(widget.imgSrc)
+                        : Image.asset(widget.imgSrc),
                   ),
                   SizedBox(
                     width: 10.w,
